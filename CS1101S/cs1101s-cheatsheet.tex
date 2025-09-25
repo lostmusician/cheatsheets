@@ -20,6 +20,10 @@
 % for relations
 \usepackage{cancel}
 \usepackage{ mathrsfs }
+\usepackage{minted}
+\usemintedstyle{tango}
+\definecolor{newblue}{HTML}{ADD8E6}
+\colorlet{lightblue}{newblue!45}
 \graphicspath{ {./images/} }
 \setlist{nosep}
 
@@ -113,20 +117,34 @@
         \parbox{0.8\linewidth}{\centering \textcolor{black}{
             {\Large\textbf{CS1101S}}
             \\ \normalsize{AY25/26 sem 1}}
-            \\ {\footnotesize \textcolor{myblue}{github.com/jovyntls}} 
+            \\ {\footnotesize \textcolor{myblue}{github.com/lostmusician}} 
         }%
     }
 \end{center}
 
-\section{01. yes}
-\subsection{sets of numbers}
-    $\mathbb{N}$ : natural numbers ($\mathbb{Z}_{\geq 0}$)
-\\* $\mathbb{Z}$ : integers
-\\* $\mathbb{Q}$ : rational numbers
-\\* $\mathbb{R}$ : real numbers
-\\* $\mathbb{C}$ : complex numbers
+\section{01. RECURSION}
+\subsection{definitions}
+   recursion: \textbf{increasing} deferred operations
+\\* iteration: \textbf{constant} deferred operations
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+    function factorial(n) {
+        if (n === 0) return 1; // base case
+        return n * factorial(n - 1); // recursive case
+    }
 
-\subsection{basic properties of integers}
+    function factorial(n) {
+        return iter(1, 1, n);
+    }
+
+    function iter(product, counter, n) {
+        return counter > n
+            ? product // base case
+            : iter(product * counter, counter + 1, n); // recursive case
+    }
+\end{minted}
+wishful thinking: assuming that the back is already solved
+
+\subsection{lists and trees}
 \begin{center}
     closure (under addition and multiplication)
     \\* $x+y \in \mathbb{Z} \land xy \in \mathbb{Z}$
