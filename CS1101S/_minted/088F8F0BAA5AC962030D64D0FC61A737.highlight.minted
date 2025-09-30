@@ -1,0 +1,8 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{map\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{f}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{tree}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{sub\PYGZus{}tree}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{o}{!}\PYG{n+nx}{is\PYGZus{}list}\PYG{p}{(}\PYG{n+nx}{sub\PYGZus{}tree}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{f}\PYG{p}{(}\PYG{n+nx}{sub\PYGZus{}tree}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{map\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{f}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{sub\PYGZus{}tree}\PYG{p}{)}
+\PYG{+w}{               }\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{tree}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

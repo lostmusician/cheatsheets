@@ -1,0 +1,7 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{gcd}\PYG{p}{(}\PYG{n+nx}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{b}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{a}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{gcd}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{a}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n+nx}{b}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{transpose}\PYG{p}{(}\PYG{n+nx}{M}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{nR}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{length}\PYG{p}{(}\PYG{n+nx}{M}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// number of rows}
+\PYG{+w}{    }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{nC}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{length}\PYG{p}{(}\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{M}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// columns}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{c}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{row}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{list\PYGZus{}ref}\PYG{p}{(}\PYG{n+nx}{row}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{M}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{enum\PYGZus{}list}\PYG{p}{(}\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{nC}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{row\PYGZus{}sums}\PYG{p}{(}\PYG{n+nx}{M}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{map}\PYG{p}{(}\PYG{n+nx}{row}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{accumulate}\PYG{p}{(}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{sum}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{sum}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{row}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{M}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

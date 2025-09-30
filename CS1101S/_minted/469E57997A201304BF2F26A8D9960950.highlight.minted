@@ -1,0 +1,16 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{factorial}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// base case}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{factorial}\PYG{p}{(}\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// recursive case}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{factorial}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{iter}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{iter}\PYG{p}{(}\PYG{n+nx}{product}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{counter}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{counter}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{n}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{product}\PYG{+w}{ }\PYG{c+c1}{// base case}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{iter}\PYG{p}{(}\PYG{n+nx}{product}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{counter}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{counter}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// recursive case}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

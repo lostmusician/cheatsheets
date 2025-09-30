@@ -1,0 +1,12 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{flatten\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{h}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{prev}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{            }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{prev}
+\PYG{+w}{            }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}list}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{append}\PYG{p}{(}\PYG{n+nx}{flatten\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{prev}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{prev}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{accumulate}\PYG{p}{(}\PYG{n+nx}{h}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

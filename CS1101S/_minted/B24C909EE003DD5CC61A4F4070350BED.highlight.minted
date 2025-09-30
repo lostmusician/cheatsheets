@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{append\PYGZus{}iter}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{)}\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{c+c1}{// iterative process}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{app}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{(}\PYG{n+nx}{ys}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{app}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{,}
+\PYG{+w}{              }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{(}\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{)}\PYG{p}{)}
+\PYG{+w}{              }\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{app}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

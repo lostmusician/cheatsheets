@@ -122,177 +122,232 @@
     }
 \end{center}
 
-\section{01. RECURSION}
-\subsection{definitions}
-   recursion: \textbf{increasing} deferred operations
-\\* iteration: \textbf{constant} deferred operations
+\section{01 recursion}
+\subsection{examples}
 \begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
-    function factorial(n) {
-        if (n === 0) return 1; // base case
-        return n * factorial(n - 1); // recursive case
-    }
+function factorial(n) {
+    if (n === 0) return 1; // base case
+    return n * factorial(n - 1); // recursive case
+}
 
-    function factorial(n) {
-        return iter(1, 1, n);
-    }
+function factorial(n) {
+    return iter(1, 1, n);
+}
 
-    function iter(product, counter, n) {
-        return counter > n
-            ? product // base case
-            : iter(product * counter, counter + 1, n); // recursive case
+function iter(product, counter, n) {
+    return counter > n
+        ? product // base case
+        : iter(product * counter, counter + 1, n); // recursive case
+}
+\end{minted}
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function fib(n) {
+    function f(n, k, x, y) {
+        return (k > n)
+            ? y
+            : f(n, k + 1, y, x + y);
     }
+    return (n < 2) ? n : f(n, 2, 0, 1);
+}
+\end{minted}
+
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function gcd(a, b) {
+    return b === 0
+        ? a
+        : gcd(b, a % b);
+}
 \end{minted}
 wishful thinking: assuming that the back is already solved
 
-\subsection{lists and trees}
-\begin{center}
-    closure (under addition and multiplication)
-    \\* $x+y \in \mathbb{Z} \land xy \in \mathbb{Z}$
+\subsection{CPS}
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function append_iter(xs, ys){
+    // iterative process
+    function app(xs, ys, c) {
+        return is_null(xs)
+        ? c(ys)
+        : app(tail(xs), ys, 
+              x => c(pair(head(xs), x))
+              );
+    }
+    return app(xs, ys, x => x);
+}
+\end{minted}
 
-    commutativity
-    \\* $a + b = b + a \land ab = ba$
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function fast_expt(b, n) {
+    return n === 0
+          ? 1
+          : is_even(n)
+          ? square(fast_expt(b, n / 2))
+          : b * fast_expt(b, n - 1);
+}
 
-    associativity
-    \\* $a + b + c = a + (b + c) = (a + b) + c$
-    \\* $abc = a(bc) = (ab)c$
+function fast_expt_cps(b, n, c) {
+    return n === 0
+          ? c(1)
+          : is_even(n)
+          ? fast_expt_cps(b, n / 2, x => c(square(x)))
+          : fast_expt_cps(b, n - 1, x => c(b * x));
+}
+\end{minted}
 
-    distributivity
-    \\* $a(b + c) = ab + ac$
+\section{02 lists and trees}
+A tree of certain data items is a list whose elements are such data items, or trees of such data items. \\
+make tree takes 3 args: entry, left branch, right branch
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function BST_to_list(bst) {
+    if (is_null(bst)) {
+        return null;
+    } else {
+        const ltree = head(tail(bst));
+        const num = head(bst);
+        const rtree = head(tail(tail(bst)));
+        return append(BST_to_list(ltree),
+                      pair(num, BST_to_list(rtree)));
+    }
+}
+\end{minted}
 
-    trichotomy
-    \\* $(a < b) \lor (a > b) \lor (a = b)$
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function map_tree(f, tree) {
+    return map(sub_tree => !is_list(sub_tree)
+                ? f(sub_tree)
+                : map_tree(f, sub_tree)
+               , tree);
+}
+\end{minted}
 
-    transitive law
-    \\* $(a < b) \land (b < c) \implies (a < c)$
-\end{center}
- 
-\subsection{definitions}
-\begin{center}
-    even/odd
-    \\* $n \text{ is even} \iff \exists k \in \mathbb{Z} \mid n = 2k$
-    \\* $n \text{ is odd} \iff \exists k \in \mathbb{Z} \mid n = 2k + 1$
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function flatten_tree(xs) {
+    function h(xs, prev) {
+        return is_null(xs)
+            ? prev
+            : is_list(xs)
+                ? append(flatten_tree(xs), prev)
+                : pair(xs, prev);
+    }
+    return accumulate(h, null, xs);
+}
+\end{minted}
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function insert(bst, item) {
+    if (is_empty_tree(bst)) {
+        return make_tree(item, 
+                         make_empty_tree(), 
+                         make_empty_tree());
+    } else {
+        if (item < entry(bst)) {
+            // smaller than entry(left branch)
+            return make_tree(entry(bst),
+                       insert(left_branch(bst),
+                              item),
+                       right_branch(bst));
+        } else if (item > entry(bst)) {
+            // bigger than entry (right branch)
+            return make_tree(entry(bst),
+                       left_branch(bst),
+                       insert(right_branch(bst),
+                              item));
+        } else {
+            // equal to entry.
+            return bst;
+        }
+    }
+}
+\end{minted}
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function find(bst, name) {
+    return is_empty_tree(bst)
+        ? false
+        : name === entry(bst)
+         ? true
+         : name < entry(bst)
+          ? find(left_branch(bst), name)
+          : find(right_branch(bst), name);
+}
+\end{minted}
 
-    prime/composite
-    \\* $n \text{ is prime} \iff n>1 \text{ and } \forall r, s \in \mathbb{Z}^+, n=rs \then (r=n)\lor(r=s)$
-    \\* $n \text{ is composite} \iff n>1 \text{ and } \exists r, s \in \mathbb{Z}^+ s.t. n = rs \text{ and } 1<r<n \text{ and } 1<s<n$
+\subsection{matrix}
+remember to use listref
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function transpose(M) {
+    const nR = length(M); // number of rows
+    const nC = length(head(M)); // columns
+    return map(c => map(row => list_ref(row, c), M), enum_list(0, nC - 1));
+}
 
-    divisibility ($d$ divides $n$)
-    \\* $d \mid n \iff \exists k \in \mathbb{Z} \mid n = kd$
+function row_sums(M) {
+    return map(row => accumulate((x, sum) => x + sum, 0, row), M);
+}
+\end{minted}
 
-    rationality
-    \\* $r \text{ is rational} \iff \exists a, b \in \mathbb{Z} \mid r = \frac{a}{b} \text{ and } b \neq 0$
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function map_using_accumulate(f, xs) {
+    return accumulate((x, result) => 
+                pair(f(x), result), null, xs);
+}
 
-    floor/ceiling
-    \\* $\lfloor x \rfloor$ : largest integer $y$ such that $y \leq x$
-    \\* $\lceil x \rceil$ : smallest integer $y$ such that $y \geq x$
-\subsubsection{rules of inference}
-    \begin{multicols}{2}
-        generalisation
-        \\* $p,\ \therefore p \lor q$
+function filter_using_accumulate(pred, xs) {
+    return accumulate(
+        (x, result) => pred(x) 
+        ? pair(x, result) : result,
+        null,
+        xs
+    );
+}
+\end{minted}
+
+\section{03 permutations and combinations}
+\begin{minted}[breaklines,breakanywhere,linenos,bgcolor=lightblue]{javascript}
+function permutations(s) {
+    return is_null(s)
+        ? list(null)
+        : accumulate(append, null,
+                     map(x => map(p => pair(x, p),
+                     permutations(remove(x, s))),
+                     s));
+}
+
+function subsets(s) {
+    return accumulate(
+        (x, s1) => append(s1,
+                   map(ss => pair(x, ss), s1)),
+        list(null),
+        s);
+}
+function choose(n, r) {
+    if (n < 0 || r < 0) {
+        return 0;
+    } else if (r === 0) {
+        return 1;
+    } else {
+        // Consider the 1st item, there are 2 choices:
+        // To use, or not to use
+        // Get remaining items with wishful thinking
+        const to_use = choose(n - 1, r - 1);
+        const not_to_use = choose(n - 1, r);
         
-        specialisation
-        \\* $p \land q,\ \therefore p$
+        return to_use + not_to_use;
+    }
+}
 
-        elimination
-        \\* $p \lor q;\ \ \lnot q,\ \therefore p$
-
-        transitivity
-        \\* $p \then q;\ q \then r;\ \ \therefore p \then r$
-    \end{multicols}
-\end{center}
-
-\section{04. METHODS OF PROOF}
-\subsection{Proof by Exhaustion/Cases}
-\begin{enumerate}
-    \item list out possible cases
-    \begin{enumerate}
-        \item Case 1: $n$ is odd OR If $n = 9$, ...
-        \item Case 2: $n$ is even OR If $n = 16$, ...
-    \end{enumerate}
-    \item therefore ...
-\end{enumerate}
-
-\subsection{Proof by Contradiction}
-\begin{enumerate}
-    \item Suppose that \dots
-    \begin{enumerate}
-        \item <proof>
-        \item \dots but this contradicts \dots
-    \end{enumerate}
-    \item Therefore the assumption that \dots is false. \\* Hence \dots.
-\end{enumerate}
-
-\subsection{Proof by Contraposition}
-\begin{enumerate}
-    \item Contrapositive statement: $\lnot q \then \lnot p$
-    \item let $\lnot q$
-    \begin{enumerate}
-        \item <proof>
-        \item hence $\lnot p$
-    \end{enumerate}
-    \item $\therefore p \then q$
-\end{enumerate}
-
-\subsection{Proof by Construction}
-\begin{enumerate}
-    \item Let $x = 3, y=4, z=5$.
-    \item Then $x, y, z \in \mathbb{Z}_{\geq 1}$ and $x^2 + y^2 = 3^2 + 4^2 = 9 + 16 = 25 = 5^2$.
-    \item Thus $\exists x, y, z \in \mathbb{Z}_{\geq 1}$ such that $x^2 + y^2 = z^2$.
-\end{enumerate}
-
-\subsection{Proof by Induction}
-\begin{enumerate}
-    \item For each $n \in \mathbb{Z}_{\geq 1}$, let $P(n)$ be the proposition "$\dots$"
-    \item (base step) $P(1)$ is true because <manual method>
-    \item (induction step) 
-    \begin{enumerate}
-        \item let $k \in \mathbb{Z}_{\geq 1}$ s.t. $P(k)$ is true
-        \item Then \dots
-        \item proof that $P(k + 1)$ is true - e.g. $P(k+1) = P(k) + term_{k+1}$
-        \item So $P(k + 1)$ is true.
-    \end{enumerate}
-    \item Hence $\forall n \in \mathbb{Z}_{\geq 1} P(n)$ is true by MI.
-\end{enumerate}
-
-\subsection{Proofs for Sets}
-\bf{Equality of Sets (A=B)}
-\begin{enumerate}
-    \item $(\Rightarrow)$
-        \begin{enumerate}
-            \item Take any $z \in A$.
-            \item $\dots$
-            \item $\therefore z \in B$.
-        \end{enumerate}
-    \item $(\Leftarrow)$
-    \begin{enumerate}
-        \item Take any $z \in B$.
-        \item $\dots$
-        \item $\therefore z \in A$.
-    \end{enumerate}
-\end{enumerate}
-
-\bf{Element Method}
-\begin{enumerate}
-    \item $A \cap (B \backslash C) = \{ x : x \in A \land x \in (B \backslash C) \}$ (by def. of $\cap$)
-    \item $= \{ x : x \in A \land (x \in B \land x \notin C)\}$ (by def. of $\backslash$)
-    \item $\dots$
-    \item $= (A \cap B) \backslash C$ (by def. of $\backslash$)
-\end{enumerate}
-
-\subsection{Other Proofs}
-\bf{iff ($A \iff B$)}
-\begin{enumerate}
-    \item ($\Rightarrow$) Suppose $A$.
-    \begin{enumerate}
-        \item $\dots$ <proof> $\dots$
-        \item Hence $A \then B$
-    \end{enumerate}
-    \item ($\Leftarrow$) Suppose $B$.
-    \begin{enumerate}
-        \item $\dots$ <proof> $\dots$
-        \item Hence $B \then A$
-    \end{enumerate}
-\end{enumerate}
+function combinations(xs, r) {
+    if ( (r !== 0 && xs === null) || r < 0) {
+        return null;
+    } else if (r === 0) {
+        return list(null);
+    } else {
+        const no_choose = combinations(tail(xs), r);
+        const yes_choose = combinations(tail(xs),
+                                        r - 1);
+        const yes_item = map(x => pair(head(xs), x),
+                             yes_choose);
+        return append(no_choose, yes_item);
+    }
+}
+\end{minted}
 
 \section{02. COMPOUND STATEMENTS}
 \subsection{operations}

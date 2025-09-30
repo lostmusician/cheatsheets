@@ -1,0 +1,17 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{fast\PYGZus{}expt}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{          }\PYG{o}{?}\PYG{+w}{ }\PYG{l+m+mf}{1}
+\PYG{+w}{          }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}even}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{)}
+\PYG{+w}{          }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{square}\PYG{p}{(}\PYG{n+nx}{fast\PYGZus{}expt}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{p}{)}
+\PYG{+w}{          }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{b}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{fast\PYGZus{}expt}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{fast\PYGZus{}expt\PYGZus{}cps}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{          }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{(}\PYG{l+m+mf}{1}\PYG{p}{)}
+\PYG{+w}{          }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}even}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{)}
+\PYG{+w}{          }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{fast\PYGZus{}expt\PYGZus{}cps}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{(}\PYG{n+nx}{square}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+\PYG{+w}{          }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{fast\PYGZus{}expt\PYGZus{}cps}\PYG{p}{(}\PYG{n+nx}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{c}\PYG{p}{(}\PYG{n+nx}{b}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}
