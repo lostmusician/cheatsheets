@@ -8,6 +8,7 @@
 \PYG{+w}{                     }\PYG{n+nx}{s}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
 \PYG{p}{\PYGZcb{}}
 
+
 \PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{subsets}\PYG{p}{(}\PYG{n+nx}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
 \PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{accumulate}\PYG{p}{(}
 \PYG{+w}{        }\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{s1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{append}\PYG{p}{(}\PYG{n+nx}{s1}\PYG{p}{,}

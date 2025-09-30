@@ -1,0 +1,28 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{partition}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{h}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{lte}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{gt}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{lte}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{gt}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{first}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{first}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{p}
+\PYG{+w}{                }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{h}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{lte}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{gt}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{h}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{lte}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{gt}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{h}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{quicksort}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{xs}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{pivot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{splits}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{partition}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{pivot}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{smaller}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{quicksort}\PYG{p}{(}\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{splits}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{bigger}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{quicksort}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{splits}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{append}\PYG{p}{(}\PYG{n+nx}{smaller}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{pivot}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{bigger}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}
