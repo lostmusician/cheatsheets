@@ -11,7 +11,7 @@
 \PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{;}
 
 \PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{Circle}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{color}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
-\PYG{+w}{        }\PYG{k+kd}{super}\PYG{p}{(}\PYG{n}{color}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{super}\PYG{p}{(}\PYG{n}{color}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// MUST BE FIRST LINE}
 \PYG{+w}{        }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{radius}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{;}
 \PYG{+w}{    }\PYG{p}{\PYGZcb{}}
 

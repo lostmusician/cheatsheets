@@ -101,8 +101,7 @@
 \begin{document}
 \raggedright
 \footnotesize
-\raggedcolumns
-\begin{multicols}{4}
+\begin{multicols}{3}
 
 
 % multicol parameters
@@ -115,10 +114,10 @@
 
 \begin{center}
     \fbox{%
-        \parbox{0.8\linewidth}{\centering \textcolor{black}{
-            {\Large\textbf{CS2030S}}
-            \\ \normalsize{AY24/25 Sem 1}}
-            \\ {\footnotesize \textcolor{myblue}{Programming Methodology II}} 
+        \parbox{0.6\linewidth}{\centering \textcolor{black}{
+            {\normalsize\textbf{CS2030S}}
+            \\ \small{AY25/26 Sem 1}}
+            \\ {\scriptsize \textcolor{myblue}{Programming Methodology II}} 
         }%
     }
 \end{center}
@@ -128,21 +127,25 @@
 \textbf{Strong vs Weak Typing}: Stronger languages have greater rules in their type system to ensure type safety.
 
 \section{Tombstone Diagram}
-Represents programs, languages, compilers, and interpreters. Used to reason about portability and execution. A program $P$ implemented in $A$ can run on machine $C$ if there is a chain of interpreters/compilers mapping $A \to C$.
+\includegraphics[width=0.55\linewidth]{tombstone.png}
 
 \section{Subtyping}
 T is a subtype of S (\texttt{T <: S}) if code written for S can be safely used for T. T has narrower scope, S has wider scope.
 \begin{itemize}
   \item \textbf{Widening}: T can be put into S
   \item \textbf{Narrowing}: S can be explicitly typecast into T
-  \item \textbf{Reflexive}: T <: T
-  \item \textbf{Transitive}: T <: S, S <: U $\Rightarrow$ T <: U
-  \item \textbf{Anti-Symmetric}: T <: S, S <: T $\Rightarrow$ S = T
+  \item \textbf{Reflexive}: T $<:$ T
+  \item \textbf{Transitive}: T $<:$ S, S $<:$ U $\Rightarrow$ T $<:$ U
+  \item \textbf{Anti-Symmetric}: T $<:$ S, S $<:$ T $\Rightarrow$ S = T
 \end{itemize}
 
 \section{Primitive Types}
-\texttt{byte <: short <: int <: long <: float <: double}\\
-\texttt{char <: int}
+\begin{itemize}
+  \item \textbf{Numeric}: byte $<:$ short $<:$ int $<:$ long $<:$ float $<:$ double
+  \item \textbf{Character}: char $<:$ int
+  \item \textbf{Boolean}: boolean
+  \item \textbf{Void}: void (no value)
+\end{itemize}
 
 \section{Reference Types}
 Anything not a primitive type (e.g., classes). Stores only a reference to the value. Two reference variables can share the same value -- equality by default compares references. Uninitialized: null value, throws \texttt{NullPointerException}.
@@ -196,6 +199,8 @@ circle.isLargerThan(5.0)
 \section{Stack and Heap}
 \textbf{Stack}: Where all variables are allocated and stored. Contains \textbf{Call Frames}, created when methods are invoked and destroyed when returned.\\
 \textbf{Heap}: Where objects are allocated and stored. Whenever \texttt{new} is used, a new object is created on the heap. Objects store: Class Name, Instance Fields and Values, Captured Variables.
+
+\includegraphics[width=0.85\linewidth]{stacknheap.png}
 
 \section{Class Fields and Methods}
 \begin{itemize}
@@ -273,7 +278,7 @@ class Circle implements Drawable, Comparable<Circle> {
 \end{minted}
 
 \subsection{Liskov Substitution Principle (LSP)}
-Any property of objects of type T should be true for any object of type S where S <: T. Don't break expectations of the parent class. Can use \texttt{final} to prevent inheritance or modification of methods/fields.
+Any property of objects of type T should be true for any object of type S where S $<:$ T. Don't break expectations of the parent class. Can use \texttt{final} to prevent inheritance or modification of methods/fields.
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
 void processShape(Shape s) {
     double area = s.getArea(); // works for all
@@ -320,21 +325,21 @@ int j = i;      // auto-unboxing (line 2)
 \section{Type Checking}
 \texttt{a = (C) b}: where \texttt{b} has CTT(b) and RTT(b).
 \begin{itemize}
-  \item Find CTT(b); check if possible for RTT(b) <: C
+  \item Find CTT(b); check if possible for RTT(b) $<:$ C
   \begin{itemize}
-    \item CTT(b) <: C: widening cast, allowed at compile time
-    \item C <: CTT(b): narrowing, requires runtime check for RTT(b)
+    \item CTT(b) $<:$ C: widening cast, allowed at compile time
+    \item C $<:$ CTT(b): narrowing, requires runtime check for RTT(b)
     \item C is interface: could be a subclass of B implementing C
   \end{itemize}
   \item \textbf{Impossibility}: B and C are unrelated; C is interface and B is final
-  \item Find CTT(a): check C <: CTT(a); add runtime check for RTT(b) <: C
-  \item \textbf{Run Time}: Find RTT(b); check if RTT(b) <: C
+  \item Find CTT(a): check C $<:$ CTT(a); add runtime check for RTT(b) $<:$ C
+  \item \textbf{Run Time}: Find RTT(b); check if RTT(b) $<:$ C
 \end{itemize}
 
 \section{Variance}
 \begin{itemize}
-  \item \textbf{Covariant}: S <: T implies S[] <: T[] (Java arrays are covariant)
-  \item \textbf{Contravariant}: S <: T implies (T) <: (S)
+  \item \textbf{Covariant}: S $<:$ T implies S[] $<:$ T[] (Java arrays are covariant)
+  \item \textbf{Contravariant}: S $<:$ T implies (T) $<:$ (S)
   \item \textbf{Invariant}: None of the above (Java generics are invariant)
 \end{itemize}
 
@@ -440,14 +445,21 @@ Use empty diamond \texttt{<>} on RHS to instantiate generic types. 3-step method
 \end{enumerate}
 Java considers types explicitly involved in inequalities, then chooses the most specific type.
 
-\section{Factory Methods}
-\begin{itemize}
-  \item Create classes through factory rather than constructor
-  \item Hides constructor information
-  \item Useful when consumer does not know exact subtype; acts as auxiliary
-  \item Static method
-  \item Can capture generic types to correctly parameterise
-\end{itemize}
+\section{Bridge Methods}
+Compiler generates bridge methods to preserve polymorphism after type erasure when inheritance and overriding interact with generics.
+
+\textbf{Conditions}: (i) Class is subtype of parameterised type; (ii) Type erasure changes inherited method signature.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class Box<T> { void get(T t) {} }
+class StringBox extends Box<String> {
+  @Override void get(String s) {} // user code
+}
+// After erasure, compiler generates:
+class StringBox extends Box {
+  void get(Object s) { this.get((String) s); } // bridge
+  void get(String s) {} // user code
+}
+\end{minted}
 
 \section{06 Exception Handling}
 \subsection{Try-Catch-Finally}
@@ -472,26 +484,6 @@ try (FileReader fr = new FileReader("f.txt")) {
     String line = br.readLine();
 } // Resources auto-closed
 \end{minted}
-
-\section{10 Key Concepts}
-\subsection{Object Methods}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-@Override
-public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || getClass() != obj.getClass()) 
-        return false;
-    Circle o = (Circle) obj;
-    return Double.compare(radius, o.radius) == 0;
-}
-
-@Override
-public int hashCode() {
-    return Objects.hash(radius);
-}
-\end{minted}
-
-\textbf{Autoboxing}: \texttt{int} $\leftrightarrow$ \texttt{Integer} (heap allocation cost)
 
 \end{multicols}
 

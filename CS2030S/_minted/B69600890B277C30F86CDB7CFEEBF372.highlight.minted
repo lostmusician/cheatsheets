@@ -1,6 +1,0 @@
-\begin{MintedVerbatim}[commandchars=\\\{\}]
-\PYG{n}{cf1}\PYG{p}{.}\PYG{n+na}{thenCombine}\PYG{p}{(}\PYG{n}{cf2}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// combine}
-\PYG{n}{cf1}\PYG{p}{.}\PYG{n+na}{applyToEither}\PYG{p}{(}\PYG{n}{cf2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{    }\PYG{c+c1}{// first}
-\PYG{n}{CompletableFuture}\PYG{p}{.}\PYG{n+na}{allOf}\PYG{p}{(}\PYG{n}{cf1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cf2}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{     }\PYG{c+c1}{// all}
-\PYG{n}{CompletableFuture}\PYG{p}{.}\PYG{n+na}{anyOf}\PYG{p}{(}\PYG{n}{cf1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cf2}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{     }\PYG{c+c1}{// any}
-\end{MintedVerbatim}

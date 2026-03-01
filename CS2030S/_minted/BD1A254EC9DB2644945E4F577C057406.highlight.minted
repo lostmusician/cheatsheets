@@ -1,0 +1,4 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{T}\PYG{o}{[}\PYG{o}{]}\PYG{+w}{ }\PYG{n}{tmp}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{T}\PYG{o}{[}\PYG{o}{]}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Object}\PYG{o}{[}\PYG{n}{sz}\PYG{o}{]}\PYG{p}{;}
+\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{arr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{tmp}\PYG{p}{;}
+\end{MintedVerbatim}

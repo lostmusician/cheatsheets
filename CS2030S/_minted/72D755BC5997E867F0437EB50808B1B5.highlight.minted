@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Before erasure}
+\PYG{n}{Int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Pair}\PYG{o}{\PYGZlt{}}\PYG{n}{Str}\PYG{p}{,}\PYG{n}{Int}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{.}\PYG{n+na}{sec}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+c1}{// After erasure}
+\PYG{n}{Int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Int}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Pair}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{.}\PYG{n+na}{sec}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}
