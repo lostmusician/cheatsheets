@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Bad}
+\PYG{n}{customer}\PYG{p}{.}\PYG{n+na}{getWallet}\PYG{p}{(}\PYG{p}{)}\PYG{p}{.}\PYG{n+na}{getMoney}\PYG{p}{(}\PYG{p}{)}\PYG{p}{.}\PYG{n+na}{getAmount}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+c1}{// Good}
+\PYG{n}{customer}\PYG{p}{.}\PYG{n+na}{pay}\PYG{p}{(}\PYG{n}{amount}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}

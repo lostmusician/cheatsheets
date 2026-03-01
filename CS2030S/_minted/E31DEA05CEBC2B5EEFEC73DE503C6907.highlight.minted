@@ -1,0 +1,15 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{class} \PYG{n+nc}{ImmutablePoint}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{ImmutablePoint}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{y}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{ImmutablePoint}\PYG{+w}{ }\PYG{n+nf}{move}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dx}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dy}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ImmutablePoint}\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dx}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dy}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

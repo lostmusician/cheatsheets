@@ -1,0 +1,37 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{take}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{k+kc}{null}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{               }\PYG{n+nx}{take}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{drop}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{===}\PYG{+w}{ }\PYG{l+m+mf}{0}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{xs}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{drop}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{merge}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{ys}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{xs}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{ys}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{)}
+\PYG{+w}{            }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{merge}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{ys}\PYG{p}{)}\PYG{p}{)}
+\PYG{+w}{            }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{merge}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{ys}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{merge\PYGZus{}sort}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{xs}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{mid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{math\PYGZus{}floor}\PYG{p}{(}\PYG{n+nx}{length}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{merge}\PYG{p}{(}\PYG{n+nx}{merge\PYGZus{}sort}\PYG{p}{(}\PYG{n+nx}{take}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{mid}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                     }\PYG{n+nx}{merge\PYGZus{}sort}\PYG{p}{(}\PYG{n+nx}{drop}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{mid}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

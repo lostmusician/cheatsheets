@@ -1,0 +1,20 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{class} \PYG{n+nc}{Box}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{T}\PYG{+w}{ }\PYG{n}{item}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{Box}\PYG{p}{(}\PYG{n}{T}\PYG{+w}{ }\PYG{n}{item}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{item}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{item}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{T}\PYG{+w}{ }\PYG{n+nf}{getItem}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{item}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n}{U}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{Box}\PYG{o}{\PYGZlt{}}\PYG{n}{U}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nf}{map}\PYG{p}{(}\PYG{n}{Transformer}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{U}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{f}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Box}\PYG{o}{\PYGZlt{}}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{f}\PYG{p}{.}\PYG{n+na}{transform}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{Box}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{strBox}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Box}\PYG{o}{\PYGZlt{}}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{hello}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{n}{Box}\PYG{o}{\PYGZlt{}}\PYG{n}{Integer}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{intBox}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Box}\PYG{o}{\PYGZlt{}}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{l+m+mi}{42}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}

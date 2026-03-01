@@ -1,0 +1,8 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{Shape}\PYG{+w}{ }\PYG{n}{s1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Circle}\PYG{p}{(}\PYG{l+m+mf}{5.0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{red}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{n}{Shape}\PYG{+w}{ }\PYG{n}{s2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Rectangle}\PYG{p}{(}\PYG{l+m+mf}{3.0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{4.0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{blue}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{c+c1}{// Polymorphic method call}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{area1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{s1}\PYG{p}{.}\PYG{n+na}{getArea}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Circle\PYGZsq{}s getArea}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{area2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{s2}\PYG{p}{.}\PYG{n+na}{getArea}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// Rectangle\PYGZsq{}s getArea}
+\end{MintedVerbatim}

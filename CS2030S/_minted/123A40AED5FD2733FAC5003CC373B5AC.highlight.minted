@@ -1,0 +1,22 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Unbounded wildcard}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{printList}\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{o}{?}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Object}\PYG{+w}{ }\PYG{n}{o}\PYG{+w}{ }\PYG{p}{:}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{println}\PYG{p}{(}\PYG{n}{o}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Upper bounded (covariant)}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{processShapes}\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{o}{?}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{Shape}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{shapes}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Shape}\PYG{+w}{ }\PYG{n}{s}\PYG{+w}{ }\PYG{p}{:}\PYG{+w}{ }\PYG{n}{shapes}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{s}\PYG{p}{.}\PYG{n+na}{getArea}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// can read}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{c+c1}{// shapes.add(new Circle()); // CANNOT add}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Lower bounded (contravariant)}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{addCircles}\PYG{p}{(}\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{o}{?}\PYG{+w}{ }\PYG{k+kd}{super}\PYG{+w}{ }\PYG{n}{Circle}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{list}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{list}\PYG{p}{.}\PYG{n+na}{add}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Circle}\PYG{p}{(}\PYG{l+m+mf}{5.0}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// can add}
+\PYG{+w}{    }\PYG{c+c1}{// Circle c = list.get(0); // CANNOT get as Circle}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

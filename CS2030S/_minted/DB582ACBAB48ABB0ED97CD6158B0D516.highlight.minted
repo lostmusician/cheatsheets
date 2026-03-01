@@ -1,0 +1,12 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{Student}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{students}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{c+cm}{/* ... */}\PYG{p}{;}
+
+\PYG{c+c1}{// Get names of top 5 students with score \PYGZgt{} 80}
+\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{topStudents}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{students}\PYG{p}{.}\PYG{n+na}{stream}\PYG{p}{(}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{.}\PYG{n+na}{filter}\PYG{p}{(}\PYG{n}{s}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{.}\PYG{n+na}{getScore}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{80}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{.}\PYG{n+na}{sorted}\PYG{p}{(}\PYG{n}{Comparator}\PYG{p}{.}\PYG{n+na}{comparing}\PYG{p}{(}\PYG{n}{Student}\PYG{p}{:}\PYG{p}{:}\PYG{n}{getScore}\PYG{p}{)}
+\PYG{+w}{                      }\PYG{p}{.}\PYG{n+na}{reversed}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{.}\PYG{n+na}{limit}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{.}\PYG{n+na}{map}\PYG{p}{(}\PYG{n}{Student}\PYG{p}{:}\PYG{p}{:}\PYG{n}{getName}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{.}\PYG{n+na}{collect}\PYG{p}{(}\PYG{n}{Collectors}\PYG{p}{.}\PYG{n+na}{toList}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}

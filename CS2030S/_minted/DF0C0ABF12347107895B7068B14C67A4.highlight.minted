@@ -1,0 +1,10 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// If S is subtype of T, then objects of type T}
+\PYG{c+c1}{// can be replaced with objects of type S}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{processShape}\PYG{p}{(}\PYG{n}{Shape}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{area}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{.}\PYG{n+na}{getArea}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// works for all}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{processShape}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Circle}\PYG{p}{(}\PYG{l+m+mf}{5.0}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{n}{processShape}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Rectangle}\PYG{p}{(}\PYG{l+m+mf}{3.0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{4.0}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\end{MintedVerbatim}

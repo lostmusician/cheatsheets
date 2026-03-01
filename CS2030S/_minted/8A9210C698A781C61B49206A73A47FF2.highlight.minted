@@ -1,0 +1,7 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Bad}
+\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{circle}\PYG{p}{.}\PYG{n+na}{getRadius}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+cm}{/* ... */}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Good}
+\PYG{n}{circle}\PYG{p}{.}\PYG{n+na}{isLargerThan}\PYG{p}{(}\PYG{l+m+mf}{5.0}\PYG{p}{)}
+\end{MintedVerbatim}

@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{BST\PYGZus{}to\PYGZus{}list}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kc}{null}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{ltree}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{num}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kd}{const}\PYG{+w}{ }\PYG{n+nx}{rtree}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{append}\PYG{p}{(}\PYG{n+nx}{BST\PYGZus{}to\PYGZus{}list}\PYG{p}{(}\PYG{n+nx}{ltree}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                      }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{num}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{BST\PYGZus{}to\PYGZus{}list}\PYG{p}{(}\PYG{n+nx}{rtree}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

@@ -1,0 +1,16 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{interface} \PYG{n+nc}{Drawable}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{draw}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{interface} \PYG{n+nc}{Comparable}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{compareTo}\PYG{p}{(}\PYG{n}{T}\PYG{+w}{ }\PYG{n}{other}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{class} \PYG{n+nc}{Circle}\PYG{+w}{ }\PYG{k+kd}{implements}\PYG{+w}{ }\PYG{n}{Drawable}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Comparable}\PYG{o}{\PYGZlt{}}\PYG{n}{Circle}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{draw}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{c+cm}{/* ... */}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{compareTo}\PYG{p}{(}\PYG{n}{Circle}\PYG{+w}{ }\PYG{n}{other}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Double}\PYG{p}{.}\PYG{n+na}{compare}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{radius}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{other}\PYG{p}{.}\PYG{n+na}{radius}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

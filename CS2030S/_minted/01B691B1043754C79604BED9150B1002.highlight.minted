@@ -1,0 +1,16 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{insert}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{list}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{            }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{            }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{pair}\PYG{p}{(}\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{insert}\PYG{p}{(}\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{insertion\PYGZus{}sort}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{is\PYGZus{}null}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{xs}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{insert}\PYG{p}{(}\PYG{n+nx}{head}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                 }\PYG{n+nx}{insertion\PYGZus{}sort}\PYG{p}{(}\PYG{n+nx}{tail}\PYG{p}{(}\PYG{n+nx}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

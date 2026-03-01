@@ -1,0 +1,26 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{insert}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{item}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{is\PYGZus{}empty\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{make\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{item}\PYG{p}{,}
+\PYG{+w}{                         }\PYG{n+nx}{make\PYGZus{}empty\PYGZus{}tree}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                         }\PYG{n+nx}{make\PYGZus{}empty\PYGZus{}tree}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{item}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n+nx}{entry}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// smaller than entry(left branch)}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{make\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{entry}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                       }\PYG{n+nx}{insert}\PYG{p}{(}\PYG{n+nx}{left\PYGZus{}branch}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                              }\PYG{n+nx}{item}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                       }\PYG{n+nx}{right\PYGZus{}branch}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{item}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{entry}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// bigger than entry (right branch)}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{make\PYGZus{}tree}\PYG{p}{(}\PYG{n+nx}{entry}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                       }\PYG{n+nx}{left\PYGZus{}branch}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                       }\PYG{n+nx}{insert}\PYG{p}{(}\PYG{n+nx}{right\PYGZus{}branch}\PYG{p}{(}\PYG{n+nx}{bst}\PYG{p}{)}\PYG{p}{,}
+\PYG{+w}{                              }\PYG{n+nx}{item}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// equal to entry.}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{bst}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

@@ -1,0 +1,10 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{fib}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{function}\PYG{+w}{ }\PYG{n+nx}{f}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{k}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{p}{)}
+\PYG{+w}{            }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{y}
+\PYG{+w}{            }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{f}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{k}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{x}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{y}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n+nx}{n}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n+nx}{f}\PYG{p}{(}\PYG{n+nx}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{1}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

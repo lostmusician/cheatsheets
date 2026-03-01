@@ -1,0 +1,23 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{class} \PYG{n+nc}{Shape}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{color}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{Shape}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{color}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{color}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{color}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{getArea}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{class} \PYG{n+nc}{Circle}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{Shape}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{Circle}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{color}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{super}\PYG{p}{(}\PYG{n}{color}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{radius}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Override}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{getArea}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{Math}\PYG{p}{.}\PYG{n+na}{PI}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{radius}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

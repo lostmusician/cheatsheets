@@ -1,0 +1,5 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{try}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{FileReader}\PYG{+w}{ }\PYG{n}{fr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{FileReader}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{f.txt}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{line}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{br}\PYG{p}{.}\PYG{n+na}{readLine}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{// Resources auto\PYGZhy{}closed}
+\end{MintedVerbatim}

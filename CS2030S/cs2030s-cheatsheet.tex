@@ -1,0 +1,624 @@
+\documentclass[10pt]{article}
+\usepackage[scaled=0.92]{helvet}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{ifthen}
+\usepackage[a4paper,margin=2mm,landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{newtxtext} 
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[table]{xcolor}
+\usepackage{vwcol}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usepackage{mathtools}
+\usepackage{nicematrix}
+% for relations
+\usepackage{cancel}
+\usepackage{ mathrsfs }
+\usepackage{minted}
+\usemintedstyle{tango}
+\definecolor{newblue}{HTML}{ADD8E6}
+\colorlet{lightblue}{newblue!45}
+\graphicspath{ {./images/} }
+\setlist{nosep}
+
+\pdfinfo{
+  /Title (CS2030S.pdf)
+  /Creator (TeX)
+  /Producer (pdfTeX 1.40.0)
+  /Author (Ivan Chiew)
+  /Subject (CS2030S)
+  /Keywords (CS2030S, nus,cheatsheet,pdf)}
+
+% Turn off header and footer
+\pagestyle{empty}
+
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+% redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-0.5ex plus -.3ex minus -.2ex}%
+                                {0.3ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-0.5ex plus -.3ex minus -.2ex}%
+                                {0.3ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-0.5ex plus -.3ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\small\bfseries}}%
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand\rmdefault{\sfdefault}
+% makes nested numbering (e.g. 1.1.1, 1.1.2, etc)
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+\renewcommand\labelitemii{•}
+%  for logical not operator
+\renewcommand{\lnot}{\mathord{\sim}}
+\renewcommand{\bf}[1]{\textbf{#1}}
+\newcommand{\abs}[1]{\vert #1 \vert}
+\newcommand{\Mod}[1]{\ \mathrm{mod}\ #1}
+
+\makeatother
+\definecolor{myblue}{cmyk}{1,.72,0,.38}
+\everymath\expandafter{\the\everymath \color{myblue}}
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\let\iff\leftrightarrow
+\let\Iff\Leftrightarrow
+\let\then\rightarrow
+\let\Then\Rightarrow
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.3ex}
+%% this changes all items (enumerate and itemize)
+\setlength{\leftmargini}{0.5cm}
+\setlength{\leftmarginii}{0.5cm}
+\setlist[itemize,1]{leftmargin=1.5mm,labelindent=0.5mm,labelsep=0.5mm}
+\setlist[itemize,2]{leftmargin=3mm,labelindent=0.5mm,labelsep=0.5mm}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+% -----------------------------------------------------------------------
+
+\begin{document}
+\raggedright
+\footnotesize
+\raggedcolumns
+\begin{multicols}{4}
+
+
+% multicol parameters
+% These lengths are set only within the two main columns
+\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{1.5pt}
+
+\begin{center}
+    \fbox{%
+        \parbox{0.8\linewidth}{\centering \textcolor{black}{
+            {\Large\textbf{CS2030S}}
+            \\ \normalsize{AY20/21 SEM 2}}
+            \\ {\footnotesize \textcolor{myblue}{Programming Methodology II}} 
+        }%
+    }
+\end{center}
+
+
+\section{01 OOP Fundamentals}
+\subsection{Encapsulation}
+Bundle data and methods within a single unit (class). Hide internal state.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class Circle {
+    private double radius;
+    
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+    
+    public double getRadius() { return radius; }
+    public double getArea() { 
+        return Math.PI * radius * radius; 
+    }
+}
+\end{minted}
+
+\subsection{Immutability}
+Object state cannot be modified after creation. Use \texttt{final}.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class ImmutablePoint {
+    private final double x;
+    private final double y;
+    
+    public ImmutablePoint(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    public ImmutablePoint move(double dx, double dy) {
+        return new ImmutablePoint(x + dx, y + dy);
+    }
+}
+\end{minted}
+
+\subsection{Tell, Don't Ask}
+Tell objects what to do; don't ask for their state.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Bad
+if (circle.getRadius() > 5) { /* ... */ }
+
+// Good
+circle.isLargerThan(5.0)
+\end{minted}
+
+\section{02 Inheritance \& Polymorphism}
+\subsection{Inheritance}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class Shape {
+    private String color;
+    public Shape(String color) {
+        this.color = color;
+    }
+    double getArea() { return 0; }
+}
+
+class Circle extends Shape {
+    private double radius;
+    
+    public Circle(double radius, String color) {
+        super(color);
+        this.radius = radius;
+    }
+    
+    @Override
+    double getArea() {
+        return Math.PI * radius * radius;
+    }
+}
+\end{minted}
+
+\subsection{Polymorphism}
+Same interface, different implementations.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+Shape s1 = new Circle(5.0, "red");
+Shape s2 = new Rectangle(3.0, 4.0, "blue");
+
+// Polymorphic method call
+double area1 = s1.getArea(); // Circle's getArea
+double area2 = s2.getArea(); // Rectangle's getArea
+\end{minted}
+
+\subsection{Abstract Classes}
+Cannot be instantiated; may have abstract methods.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+abstract class Shape {
+    abstract double getArea();
+    abstract double getPerimeter();
+    
+    // Concrete method
+    public void printInfo() {
+        System.out.println("Area: " + getArea());
+    }
+}
+\end{minted}
+
+\subsection{Interfaces}
+Contract specifying what a class must do.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+interface Drawable {
+    void draw();
+}
+
+interface Comparable<T> {
+    int compareTo(T other);
+}
+
+class Circle implements Drawable, Comparable<Circle> {
+    public void draw() { /* ... */ }
+    public int compareTo(Circle other) {
+        return Double.compare(this.radius, other.radius);
+    }
+}
+\end{minted}
+
+\subsection{Liskov Substitution Principle (LSP)}
+Subtype must be substitutable for supertype without altering correctness.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// If S is subtype of T, then objects of type T
+// can be replaced with objects of type S
+void processShape(Shape s) {
+    double area = s.getArea(); // works for all
+}
+
+processShape(new Circle(5.0));
+processShape(new Rectangle(3.0, 4.0));
+\end{minted}
+
+\section{03 Generics}
+\subsection{Generic Class}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class Box<T> {
+    private T item;
+    
+    public Box(T item) {
+        this.item = item;
+    }
+    
+    public T getItem() {
+        return item;
+    }
+    
+    public <U> Box<U> map(Transformer<T, U> f) {
+        return new Box<>(f.transform(item));
+    }
+}
+
+Box<String> strBox = new Box<>("hello");
+Box<Integer> intBox = new Box<>(42);
+\end{minted}
+
+\subsection{Generic Methods}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class Utils {
+    public static <T> T getFirst(List<T> list) {
+        return list.get(0);
+    }
+    
+    public static <T extends Comparable<T>> 
+    T max(T a, T b) {
+        return a.compareTo(b) > 0 ? a : b;
+    }
+}
+\end{minted}
+
+\subsection{Bounded Type Parameters}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Upper bound: T must be Number or subclass
+class NumBox<T extends Number> {
+    private T value;
+    
+    public double getDouble() {
+        return value.doubleValue();
+    }
+}
+
+// Multiple bounds
+<T extends Shape & Drawable>
+\end{minted}
+
+\subsection{Wildcards}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Unbounded wildcard
+void printList(List<?> list) {
+    for (Object o : list) {
+        System.out.println(o);
+    }
+}
+
+// Upper bounded (covariant)
+void processShapes(List<? extends Shape> shapes) {
+    for (Shape s : shapes) {
+        s.getArea(); // can read
+    }
+    // shapes.add(new Circle()); // CANNOT add
+}
+
+// Lower bounded (contravariant)
+void addCircles(List<? super Circle> list) {
+    list.add(new Circle(5.0)); // can add
+    // Circle c = list.get(0); // CANNOT get as Circle
+}
+\end{minted}
+
+\subsection{PECS: Producer Extends, Consumer Super}
+\texttt{? extends T} for \textbf{reading} (producer) \\
+\texttt{? super T} for \textbf{writing} (consumer)
+
+\section{04 Functional Programming}
+\subsection{Lambda Expressions}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Syntax: (parameters) -> expression
+Function<Integer, Integer> square = x -> x * x;
+Predicate<Integer> isEven = x -> x % 2 == 0;
+BiFunction<Integer, Integer, Integer> add = 
+    (a, b) -> a + b;
+
+// Multi-line lambda
+Function<String, String> process = s -> {
+    String trimmed = s.trim();
+    return trimmed.toUpperCase();
+};
+\end{minted}
+
+\subsection{Functional Interfaces}
+Interface with exactly one abstract method (SAM).
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+@FunctionalInterface
+interface Transformer<T, R> {
+    R transform(T t);
+}
+
+@FunctionalInterface
+interface Predicate<T> {
+    boolean test(T t);
+}
+
+// Common ones in java.util.function:
+// Function<T,R>, Predicate<T>, Consumer<T>
+// Supplier<T>, BiFunction<T,U,R>
+\end{minted}
+
+\subsection{Method References}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Static method
+Function<String, Integer> parse = Integer::parseInt;
+
+// Instance method of particular object
+String str = "hello";
+Supplier<String> toUpper = str::toUpperCase;
+
+// Instance method of arbitrary object
+Function<String, Integer> len = String::length;
+
+// Constructor
+Supplier<List<String>> listMaker = ArrayList::new;
+Function<Integer, Circle> circleMaker = Circle::new;
+\end{minted}
+
+\subsection{Currying}
+Transform multi-argument function into sequence of single-argument functions.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Normal function
+BiFunction<Integer, Integer, Integer> add =
+    (x, y) -> x + y;
+
+// Curried version
+Function<Integer, Function<Integer, Integer>> 
+    curriedAdd = x -> y -> x + y;
+
+// Usage
+Function<Integer, Integer> add5 = curriedAdd.apply(5);
+int result = add5.apply(3); // 8
+\end{minted}
+
+\section{05 Streams}
+\subsection{Creating Streams}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// From collection
+List<Integer> list = List.of(1, 2, 3, 4);
+Stream<Integer> stream1 = list.stream();
+
+// From values
+Stream<String> stream2 = Stream.of("a", "b", "c");
+
+// From array
+int[] arr = {1, 2, 3};
+IntStream stream3 = Arrays.stream(arr);
+
+// Infinite streams
+Stream<Integer> infinite = Stream.iterate(0, x -> x + 1);
+Stream<Double> random = Stream.generate(Math::random);
+
+// Range
+IntStream range = IntStream.range(1, 10); // 1 to 9
+IntStream rangeClosed = IntStream.rangeClosed(1, 10); // 1 to 10
+\end{minted}
+
+\subsection{Intermediate Operations}
+Lazy; return a stream.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+stream.filter(x -> x > 5)          // keep elements
+      .map(x -> x * 2)              // transform
+      .flatMap(x -> Stream.of(x, x)) // flatten
+      .distinct()                    // remove duplicates
+      .sorted()                      // natural order
+      .sorted(Comparator.reverseOrder())
+      .limit(10)                     // first 10
+      .skip(5)                       // skip first 5
+      .peek(System.out::println);    // side effect
+\end{minted}
+
+\subsection{Terminal Operations}
+Eager; trigger computation and return result.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Collectors
+List<T> list = stream.collect(Collectors.toList());
+Set<T> set = stream.collect(Collectors.toSet());
+String joined = stream.collect(Collectors.joining(", "));
+
+// Reduction
+Optional<Integer> sum = stream.reduce((a, b) -> a + b);
+int sum = stream.reduce(0, (a, b) -> a + b);
+
+// Matching
+boolean anyMatch = stream.anyMatch(x -> x > 5);
+boolean allMatch = stream.allMatch(x -> x > 0);
+boolean noneMatch = stream.noneMatch(x -> x < 0);
+
+// Finding
+Optional<T> first = stream.findFirst();
+Optional<T> any = stream.findAny();
+
+// Counting
+long count = stream.count();
+
+// ForEach
+stream.forEach(System.out::println);
+
+// Numeric operations (IntStream, etc.)
+int sum = intStream.sum();
+OptionalDouble avg = intStream.average();
+OptionalInt max = intStream.max();
+\end{minted}
+
+\subsection{Stream Pipeline Example}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+List<Student> students = /* ... */;
+
+// Get names of top 5 students with score > 80
+List<String> topStudents = students.stream()
+    .filter(s -> s.getScore() > 80)
+    .sorted(Comparator.comparing(Student::getScore)
+                      .reversed())
+    .limit(5)
+    .map(Student::getName)
+    .collect(Collectors.toList());
+\end{minted}
+
+\subsection{Collectors}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Group by
+Map<String, List<Student>> byMajor = 
+    students.stream()
+            .collect(Collectors.groupingBy(
+                Student::getMajor));
+
+// Partition by (boolean)
+Map<Boolean, List<Student>> passing = 
+    students.stream()
+            .collect(Collectors.partitioningBy(
+                s -> s.getScore() >= 50));
+
+// Summarizing
+IntSummaryStatistics stats = 
+    students.stream()
+            .collect(Collectors.summarizingInt(
+                Student::getScore));
+System.out.println(stats.getAverage());
+\end{minted}
+
+\section{06 Exception Handling}
+\subsection{Try-Catch-Finally}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+try {
+    int result = riskyOperation();
+} catch (SpecificException e) {
+    // Handle specific
+} catch (Exception e) {
+    // Handle general
+} finally {
+    // Always executed (cleanup)
+}
+\end{minted}
+\textbf{Checked}: Must be caught/declared (Exception) \\
+\textbf{Unchecked}: Runtime exceptions (RuntimeException)
+
+\subsection{Try-with-Resources}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+try (FileReader fr = new FileReader("f.txt")) {
+    String line = br.readLine();
+} // Resources auto-closed
+\end{minted}
+
+\section{07 CompletableFuture}
+\subsection{Basics \& Transformations}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+CompletableFuture<String> cf = 
+    CompletableFuture.supplyAsync(() -> "Hello");
+
+cf.thenApply(x -> x.length())      // sync
+  .thenApplyAsync(x -> x + 1)      // async
+  .thenCompose(x ->                // flatten
+      CompletableFuture.supplyAsync(() -> x * 3))
+  .exceptionally(ex -> 0);         // error
+\end{minted}
+
+\subsection{Combining}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+cf1.thenCombine(cf2, (a, b) -> a + b); // combine
+cf1.applyToEither(cf2, x -> x * 2);    // first
+CompletableFuture.allOf(cf1, cf2);     // all
+CompletableFuture.anyOf(cf1, cf2);     // any
+\end{minted}
+
+\section{08 Design Principles}
+\textbf{SOLID}: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+
+\subsection{Composition over Inheritance}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Composition (flexible)
+class ColoredShape {
+    private Shape shape;
+    private String color;
+    
+    public double getArea() {
+        return shape.getArea();
+    }
+}
+\end{minted}
+
+\subsection{Law of Demeter}
+Only call methods on: self, parameters, created objects, instance variables.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Bad
+customer.getWallet().getMoney().getAmount();
+// Good
+customer.pay(amount);
+\end{minted}
+
+\section{09 Optional}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Create
+Optional<String> opt = Optional.of("value");
+Optional<String> opt = Optional.ofNullable(val);
+Optional<String> opt = Optional.empty();
+
+// Use
+opt.isPresent(); opt.get();
+opt.ifPresent(v -> System.out.println(v));
+
+// Get with default
+opt.orElse("default");
+opt.orElseGet(() -> compute());
+opt.orElseThrow(() -> new Exception());
+
+// Transform
+opt.map(String::length);
+opt.flatMap(s -> Optional.of(s.length()));
+opt.filter(s -> s.length() > 5);
+\end{minted}
+
+\section{10 Key Concepts}
+\subsection{Object Methods}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) 
+        return false;
+    Circle o = (Circle) obj;
+    return Double.compare(radius, o.radius) == 0;
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(radius);
+}
+\end{minted}
+
+\textbf{Type Erasure}: Generics removed at runtime. Cannot: \texttt{new T()}, \texttt{new T[]}, \texttt{T.class}
+
+\textbf{Autoboxing}: \texttt{int} $\leftrightarrow$ \texttt{Integer} (heap allocation cost)
+
+\end{multicols}
+
+\end{document}

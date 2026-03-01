@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{stream}\PYG{p}{.}\PYG{n+na}{filter}\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{+w}{          }\PYG{c+c1}{// keep elements}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{map}\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{              }\PYG{c+c1}{// transform}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{flatMap}\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{Stream}\PYG{p}{.}\PYG{n+na}{of}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{// flatten}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{distinct}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{                    }\PYG{c+c1}{// remove duplicates}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{sorted}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{                      }\PYG{c+c1}{// natural order}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{sorted}\PYG{p}{(}\PYG{n}{Comparator}\PYG{p}{.}\PYG{n+na}{reverseOrder}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{limit}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{                     }\PYG{c+c1}{// first 10}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{skip}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{+w}{                       }\PYG{c+c1}{// skip first 5}
+\PYG{+w}{      }\PYG{p}{.}\PYG{n+na}{peek}\PYG{p}{(}\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{:}\PYG{p}{:}\PYG{n}{println}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{    }\PYG{c+c1}{// side effect}
+\end{MintedVerbatim}
