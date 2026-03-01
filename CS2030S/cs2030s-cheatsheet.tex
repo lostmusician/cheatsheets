@@ -117,12 +117,35 @@
     \fbox{%
         \parbox{0.8\linewidth}{\centering \textcolor{black}{
             {\Large\textbf{CS2030S}}
-            \\ \normalsize{AY20/21 SEM 2}}
+            \\ \normalsize{AY24/25 Sem 1}}
             \\ {\footnotesize \textcolor{myblue}{Programming Methodology II}} 
         }%
     }
 \end{center}
 
+\section{Programming Languages}
+\textbf{Dynamic vs Static Typing}: Dynamic -- variables can hold values of multiple different unrelated types. Static -- variable types must be declared and cannot be changed.\\
+\textbf{Strong vs Weak Typing}: Stronger languages have greater rules in their type system to ensure type safety.
+
+\section{Tombstone Diagram}
+Represents programs, languages, compilers, and interpreters. Used to reason about portability and execution. A program $P$ implemented in $A$ can run on machine $C$ if there is a chain of interpreters/compilers mapping $A \to C$.
+
+\section{Subtyping}
+T is a subtype of S (\texttt{T <: S}) if code written for S can be safely used for T. T has narrower scope, S has wider scope.
+\begin{itemize}
+  \item \textbf{Widening}: T can be put into S
+  \item \textbf{Narrowing}: S can be explicitly typecast into T
+  \item \textbf{Reflexive}: T <: T
+  \item \textbf{Transitive}: T <: S, S <: U $\Rightarrow$ T <: U
+  \item \textbf{Anti-Symmetric}: T <: S, S <: T $\Rightarrow$ S = T
+\end{itemize}
+
+\section{Primitive Types}
+\texttt{byte <: short <: int <: long <: float <: double}\\
+\texttt{char <: int}
+
+\section{Reference Types}
+Anything not a primitive type (e.g., classes). Stores only a reference to the value. Two reference variables can share the same value -- equality by default compares references. Uninitialized: null value, throws \texttt{NullPointerException}.
 
 \section{01 OOP Fundamentals}
 \subsection{Encapsulation}
@@ -170,6 +193,17 @@ if (circle.getRadius() > 5) { /* ... */ }
 circle.isLargerThan(5.0)
 \end{minted}
 
+\section{Stack and Heap}
+\textbf{Stack}: Where all variables are allocated and stored. Contains \textbf{Call Frames}, created when methods are invoked and destroyed when returned.\\
+\textbf{Heap}: Where objects are allocated and stored. Whenever \texttt{new} is used, a new object is created on the heap. Objects store: Class Name, Instance Fields and Values, Captured Variables.
+
+\section{Class Fields and Methods}
+\begin{itemize}
+  \item Use \texttt{static} keyword for class-level fields/methods
+  \item Fields accessed via \texttt{Class.field} (shared across entire class)
+  \item Methods accessed via \texttt{Class.method()}, but \texttt{this} will \textbf{NOT} work
+\end{itemize}
+
 \section{02 Inheritance \& Polymorphism}
 \subsection{Inheritance}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
@@ -185,7 +219,7 @@ class Circle extends Shape {
     private double radius;
     
     public Circle(double radius, String color) {
-        super(color);
+        super(color); // MUST BE FIRST LINE
         this.radius = radius;
     }
     
@@ -195,6 +229,8 @@ class Circle extends Shape {
     }
 }
 \end{minted}
+\textbf{Overriding}: Use \texttt{@Override}. Must match Method Descriptor (Name, Parameters, Return Type).\\
+\textbf{Overloading}: Same name, different Method Signature (Name, Parameter Types).
 
 \subsection{Polymorphism}
 Same interface, different implementations.
@@ -202,13 +238,12 @@ Same interface, different implementations.
 Shape s1 = new Circle(5.0, "red");
 Shape s2 = new Rectangle(3.0, 4.0, "blue");
 
-// Polymorphic method call
 double area1 = s1.getArea(); // Circle's getArea
 double area2 = s2.getArea(); // Rectangle's getArea
 \end{minted}
 
 \subsection{Abstract Classes}
-Cannot be instantiated; may have abstract methods.
+A general class that should \textbf{NEVER} be instantiated. Abstract arrays can still be defined. Abstract methods have no body. A class with abstract methods must be made abstract.
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
 abstract class Shape {
     abstract double getArea();
@@ -222,14 +257,11 @@ abstract class Shape {
 \end{minted}
 
 \subsection{Interfaces}
-Contract specifying what a class must do.
+Models requirements of classes. Methods are \texttt{public abstract} by default. A class can implement multiple interfaces (solves Diamond Problem). Can be impure using \texttt{default} keyword.
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
 interface Drawable {
     void draw();
-}
-
-interface Comparable<T> {
-    int compareTo(T other);
+    default void info() { /* body */ } // impure
 }
 
 class Circle implements Drawable, Comparable<Circle> {
@@ -241,10 +273,8 @@ class Circle implements Drawable, Comparable<Circle> {
 \end{minted}
 
 \subsection{Liskov Substitution Principle (LSP)}
-Subtype must be substitutable for supertype without altering correctness.
+Any property of objects of type T should be true for any object of type S where S <: T. Don't break expectations of the parent class. Can use \texttt{final} to prevent inheritance or modification of methods/fields.
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// If S is subtype of T, then objects of type T
-// can be replaced with objects of type S
 void processShape(Shape s) {
     double area = s.getArea(); // works for all
 }
@@ -253,19 +283,69 @@ processShape(new Circle(5.0));
 processShape(new Rectangle(3.0, 4.0));
 \end{minted}
 
+\section{Dynamic Binding}
+\textbf{CTT (Compile Time Type)}: Declared type of variable.\\
+\textbf{RTT (Run Time Type)}: Actual type of object at runtime.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+Circle c = new ColouredCircle();
+// CTT(c) = Circle, RTT(c) = ColouredCircle
+\end{minted}
+For \texttt{obj.foo(arg)}:\\
+\textbf{Compile Time}:
+\begin{itemize}
+  \item Check CTT(obj); find all accessible \texttt{foo} methods (including supertypes of CTT(obj))
+  \item Find most specific method fitting CTT(arg); record method descriptor
+\end{itemize}
+\textbf{Run Time}:
+\begin{itemize}
+  \item Retrieve method descriptor; determine RTT(obj)
+  \item From RTT(obj), find first fitting method descriptor; recurse upwards until found
+\end{itemize}
+Does \textbf{not} apply to class (static) methods.
+
+\section{Wrapper Classes}
+Java provides wrapper classes for primitive types (e.g., \texttt{Integer}, \texttt{Double}).
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+Integer i = 4;  // auto-boxing (line 1)
+int j = i;      // auto-unboxing (line 2)
+\end{minted}
+\begin{itemize}
+  \item \textbf{Auto-boxing}: Automatically put primitive into wrapper class
+  \item \textbf{Auto-unboxing}: Automatically get value from wrapper class
+  \item 2-step boxing \textbf{NOT} allowed (e.g., \texttt{Double d = 2})
+  \item Wrapper classes \textbf{DO NOT} share subtyping with primitives
+  \item Performance cost: objects stored on heap; wrapper classes are immutable
+\end{itemize}
+
+\section{Type Checking}
+\texttt{a = (C) b}: where \texttt{b} has CTT(b) and RTT(b).
+\begin{itemize}
+  \item Find CTT(b); check if possible for RTT(b) <: C
+  \begin{itemize}
+    \item CTT(b) <: C: widening cast, allowed at compile time
+    \item C <: CTT(b): narrowing, requires runtime check for RTT(b)
+    \item C is interface: could be a subclass of B implementing C
+  \end{itemize}
+  \item \textbf{Impossibility}: B and C are unrelated; C is interface and B is final
+  \item Find CTT(a): check C <: CTT(a); add runtime check for RTT(b) <: C
+  \item \textbf{Run Time}: Find RTT(b); check if RTT(b) <: C
+\end{itemize}
+
+\section{Variance}
+\begin{itemize}
+  \item \textbf{Covariant}: S <: T implies S[] <: T[] (Java arrays are covariant)
+  \item \textbf{Contravariant}: S <: T implies (T) <: (S)
+  \item \textbf{Invariant}: None of the above (Java generics are invariant)
+\end{itemize}
+
 \section{03 Generics}
 \subsection{Generic Class}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
 class Box<T> {
     private T item;
     
-    public Box(T item) {
-        this.item = item;
-    }
-    
-    public T getItem() {
-        return item;
-    }
+    public Box(T item) { this.item = item; }
+    public T getItem() { return item; }
     
     public <U> Box<U> map(Transformer<T, U> f) {
         return new Box<>(f.transform(item));
@@ -273,20 +353,12 @@ class Box<T> {
 }
 
 Box<String> strBox = new Box<>("hello");
-Box<Integer> intBox = new Box<>(42);
 \end{minted}
 
 \subsection{Generic Methods}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-class Utils {
-    public static <T> T getFirst(List<T> list) {
-        return list.get(0);
-    }
-    
-    public static <T extends Comparable<T>> 
-    T max(T a, T b) {
-        return a.compareTo(b) > 0 ? a : b;
-    }
+public static <T extends Comparable<T>> T max(T a, T b) {
+    return a.compareTo(b) > 0 ? a : b;
 }
 \end{minted}
 
@@ -295,216 +367,87 @@ class Utils {
 // Upper bound: T must be Number or subclass
 class NumBox<T extends Number> {
     private T value;
-    
     public double getDouble() {
         return value.doubleValue();
     }
 }
-
 // Multiple bounds
 <T extends Shape & Drawable>
 \end{minted}
 
+\subsection{Type Erasure}
+After type checking, Java performs type erasure for backwards compatibility. Generic types replaced by upper bound (default Object). When a Generic is instantiated, a typecast is added.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Before erasure
+Int i = new Pair<Str,Int>("a", 4).sec();
+// After erasure
+Int i = (Int) new Pair("a", 4).sec();
+\end{minted}
+Cannot use: \texttt{new T()}, \texttt{new T[]}, \texttt{T.class}
+
+\subsection{Generic Array Problems}
+Due to type erasure, cannot tell if putting Generics into an array will cause errors. Generic array declaration is ok, but instantiation with \texttt{new} is not.
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+// Problem: becomes Pr[] after erasure
+Pr<Str,Int>[] pArr = new Pr<Str,Int>[2];
+Object[] oArr = pArr;
+oArr[0] = new Pr<Dbl,Bool>(3.14, true);
+// -> ClassCastException
+\end{minted}
+Arrays are reifiable (full type info at runtime); generics are not, so Java does not allow creating generic arrays with \texttt{new}.
+
+\subsection{Generic Arrays and Warnings}
+Since we cannot instantiate generic arrays, typecast instead (arrays are covariant):
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+T[] tmp = (T[]) new Object[sz];
+this.arr = tmp;
+\end{minted}
+Generates unchecked warning. Suppress with \texttt{@SuppressWarnings("unchecked")} only after justifying: array is \texttt{private} so only accessed by the class; array can only be modified by \texttt{Seq::set(int, T)}, which is of type T; the only retrievable objects from array are subtypes of T via \texttt{Seq::get(int)}.
+
+\subsection{Generic Type Rules}
+\begin{itemize}
+  \item Generic method signature includes type parameters (equal up to renaming)
+  \item Type checking uses type argument for class-level type parameters where possible
+  \item Method descriptor stored during dynamic binding at CTT is type erased
+\end{itemize}
+
 \subsection{Wildcards}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Unbounded wildcard
-void printList(List<?> list) {
-    for (Object o : list) {
-        System.out.println(o);
-    }
-}
-
 // Upper bounded (covariant)
+// copyFrom(Seq<? extends T> src): src is subtype of T
 void processShapes(List<? extends Shape> shapes) {
-    for (Shape s : shapes) {
-        s.getArea(); // can read
-    }
+    for (Shape s : shapes) { s.getArea(); } // can read
     // shapes.add(new Circle()); // CANNOT add
 }
 
 // Lower bounded (contravariant)
+// copyTo(Seq<? super T> dest): dest is supertype of T
 void addCircles(List<? super Circle> list) {
     list.add(new Circle(5.0)); // can add
-    // Circle c = list.get(0); // CANNOT get as Circle
+    // Circle c = list.get(0); // CANNOT get
 }
 \end{minted}
+\textbf{PECS}: Producer Extends, Consumer Super\\
+\texttt{? extends T} for \textbf{reading} (producer); \texttt{? super T} for \textbf{writing} (consumer)\\
+\textbf{Unbounded wildcards}: Similar to Object supertype, but object as a generic type parameter does not work as generics are invariant. Used to replace raw types.
 
-\subsection{PECS: Producer Extends, Consumer Super}
-\texttt{? extends T} for \textbf{reading} (producer) \\
-\texttt{? super T} for \textbf{writing} (consumer)
+\subsection{Type Inference}
+Use empty diamond \texttt{<>} on RHS to instantiate generic types. 3-step method:
+\begin{enumerate}
+  \item \textbf{Argument Typing}: Type of parameters passed in
+  \item \textbf{Target Typing}: Type of variable where return is stored
+  \item \textbf{Type Parameter}: Explicitly specified type parameters in the declaration
+\end{enumerate}
+Java considers types explicitly involved in inequalities, then chooses the most specific type.
 
-\section{04 Functional Programming}
-\subsection{Lambda Expressions}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Syntax: (parameters) -> expression
-Function<Integer, Integer> square = x -> x * x;
-Predicate<Integer> isEven = x -> x % 2 == 0;
-BiFunction<Integer, Integer, Integer> add = 
-    (a, b) -> a + b;
-
-// Multi-line lambda
-Function<String, String> process = s -> {
-    String trimmed = s.trim();
-    return trimmed.toUpperCase();
-};
-\end{minted}
-
-\subsection{Functional Interfaces}
-Interface with exactly one abstract method (SAM).
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-@FunctionalInterface
-interface Transformer<T, R> {
-    R transform(T t);
-}
-
-@FunctionalInterface
-interface Predicate<T> {
-    boolean test(T t);
-}
-
-// Common ones in java.util.function:
-// Function<T,R>, Predicate<T>, Consumer<T>
-// Supplier<T>, BiFunction<T,U,R>
-\end{minted}
-
-\subsection{Method References}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Static method
-Function<String, Integer> parse = Integer::parseInt;
-
-// Instance method of particular object
-String str = "hello";
-Supplier<String> toUpper = str::toUpperCase;
-
-// Instance method of arbitrary object
-Function<String, Integer> len = String::length;
-
-// Constructor
-Supplier<List<String>> listMaker = ArrayList::new;
-Function<Integer, Circle> circleMaker = Circle::new;
-\end{minted}
-
-\subsection{Currying}
-Transform multi-argument function into sequence of single-argument functions.
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Normal function
-BiFunction<Integer, Integer, Integer> add =
-    (x, y) -> x + y;
-
-// Curried version
-Function<Integer, Function<Integer, Integer>> 
-    curriedAdd = x -> y -> x + y;
-
-// Usage
-Function<Integer, Integer> add5 = curriedAdd.apply(5);
-int result = add5.apply(3); // 8
-\end{minted}
-
-\section{05 Streams}
-\subsection{Creating Streams}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// From collection
-List<Integer> list = List.of(1, 2, 3, 4);
-Stream<Integer> stream1 = list.stream();
-
-// From values
-Stream<String> stream2 = Stream.of("a", "b", "c");
-
-// From array
-int[] arr = {1, 2, 3};
-IntStream stream3 = Arrays.stream(arr);
-
-// Infinite streams
-Stream<Integer> infinite = Stream.iterate(0, x -> x + 1);
-Stream<Double> random = Stream.generate(Math::random);
-
-// Range
-IntStream range = IntStream.range(1, 10); // 1 to 9
-IntStream rangeClosed = IntStream.rangeClosed(1, 10); // 1 to 10
-\end{minted}
-
-\subsection{Intermediate Operations}
-Lazy; return a stream.
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-stream.filter(x -> x > 5)          // keep elements
-      .map(x -> x * 2)              // transform
-      .flatMap(x -> Stream.of(x, x)) // flatten
-      .distinct()                    // remove duplicates
-      .sorted()                      // natural order
-      .sorted(Comparator.reverseOrder())
-      .limit(10)                     // first 10
-      .skip(5)                       // skip first 5
-      .peek(System.out::println);    // side effect
-\end{minted}
-
-\subsection{Terminal Operations}
-Eager; trigger computation and return result.
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Collectors
-List<T> list = stream.collect(Collectors.toList());
-Set<T> set = stream.collect(Collectors.toSet());
-String joined = stream.collect(Collectors.joining(", "));
-
-// Reduction
-Optional<Integer> sum = stream.reduce((a, b) -> a + b);
-int sum = stream.reduce(0, (a, b) -> a + b);
-
-// Matching
-boolean anyMatch = stream.anyMatch(x -> x > 5);
-boolean allMatch = stream.allMatch(x -> x > 0);
-boolean noneMatch = stream.noneMatch(x -> x < 0);
-
-// Finding
-Optional<T> first = stream.findFirst();
-Optional<T> any = stream.findAny();
-
-// Counting
-long count = stream.count();
-
-// ForEach
-stream.forEach(System.out::println);
-
-// Numeric operations (IntStream, etc.)
-int sum = intStream.sum();
-OptionalDouble avg = intStream.average();
-OptionalInt max = intStream.max();
-\end{minted}
-
-\subsection{Stream Pipeline Example}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-List<Student> students = /* ... */;
-
-// Get names of top 5 students with score > 80
-List<String> topStudents = students.stream()
-    .filter(s -> s.getScore() > 80)
-    .sorted(Comparator.comparing(Student::getScore)
-                      .reversed())
-    .limit(5)
-    .map(Student::getName)
-    .collect(Collectors.toList());
-\end{minted}
-
-\subsection{Collectors}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Group by
-Map<String, List<Student>> byMajor = 
-    students.stream()
-            .collect(Collectors.groupingBy(
-                Student::getMajor));
-
-// Partition by (boolean)
-Map<Boolean, List<Student>> passing = 
-    students.stream()
-            .collect(Collectors.partitioningBy(
-                s -> s.getScore() >= 50));
-
-// Summarizing
-IntSummaryStatistics stats = 
-    students.stream()
-            .collect(Collectors.summarizingInt(
-                Student::getScore));
-System.out.println(stats.getAverage());
-\end{minted}
+\section{Factory Methods}
+\begin{itemize}
+  \item Create classes through factory rather than constructor
+  \item Hides constructor information
+  \item Useful when consumer does not know exact subtype; acts as auxiliary
+  \item Static method
+  \item Can capture generic types to correctly parameterise
+\end{itemize}
 
 \section{06 Exception Handling}
 \subsection{Try-Catch-Finally}
@@ -519,82 +462,15 @@ try {
     // Always executed (cleanup)
 }
 \end{minted}
-\textbf{Checked}: Must be caught/declared (Exception) \\
-\textbf{Unchecked}: Runtime exceptions (RuntimeException)
+\textbf{Checked}: Must be caught/declared (Exception)\\
+\textbf{Unchecked}: Runtime exceptions (RuntimeException)\\
+\texttt{throw} immediately suspends \texttt{try}. \texttt{finally} \textbf{ALWAYS RUNS}.
 
 \subsection{Try-with-Resources}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
 try (FileReader fr = new FileReader("f.txt")) {
     String line = br.readLine();
 } // Resources auto-closed
-\end{minted}
-
-\section{07 CompletableFuture}
-\subsection{Basics \& Transformations}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-CompletableFuture<String> cf = 
-    CompletableFuture.supplyAsync(() -> "Hello");
-
-cf.thenApply(x -> x.length())      // sync
-  .thenApplyAsync(x -> x + 1)      // async
-  .thenCompose(x ->                // flatten
-      CompletableFuture.supplyAsync(() -> x * 3))
-  .exceptionally(ex -> 0);         // error
-\end{minted}
-
-\subsection{Combining}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-cf1.thenCombine(cf2, (a, b) -> a + b); // combine
-cf1.applyToEither(cf2, x -> x * 2);    // first
-CompletableFuture.allOf(cf1, cf2);     // all
-CompletableFuture.anyOf(cf1, cf2);     // any
-\end{minted}
-
-\section{08 Design Principles}
-\textbf{SOLID}: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
-
-\subsection{Composition over Inheritance}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Composition (flexible)
-class ColoredShape {
-    private Shape shape;
-    private String color;
-    
-    public double getArea() {
-        return shape.getArea();
-    }
-}
-\end{minted}
-
-\subsection{Law of Demeter}
-Only call methods on: self, parameters, created objects, instance variables.
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Bad
-customer.getWallet().getMoney().getAmount();
-// Good
-customer.pay(amount);
-\end{minted}
-
-\section{09 Optional}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Create
-Optional<String> opt = Optional.of("value");
-Optional<String> opt = Optional.ofNullable(val);
-Optional<String> opt = Optional.empty();
-
-// Use
-opt.isPresent(); opt.get();
-opt.ifPresent(v -> System.out.println(v));
-
-// Get with default
-opt.orElse("default");
-opt.orElseGet(() -> compute());
-opt.orElseThrow(() -> new Exception());
-
-// Transform
-opt.map(String::length);
-opt.flatMap(s -> Optional.of(s.length()));
-opt.filter(s -> s.length() > 5);
 \end{minted}
 
 \section{10 Key Concepts}
@@ -614,8 +490,6 @@ public int hashCode() {
     return Objects.hash(radius);
 }
 \end{minted}
-
-\textbf{Type Erasure}: Generics removed at runtime. Cannot: \texttt{new T()}, \texttt{new T[]}, \texttt{T.class}
 
 \textbf{Autoboxing}: \texttt{int} $\leftrightarrow$ \texttt{Integer} (heap allocation cost)
 
