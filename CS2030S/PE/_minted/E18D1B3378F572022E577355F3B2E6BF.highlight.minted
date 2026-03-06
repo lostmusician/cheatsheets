@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// ? extends T: READING (producer — getters)}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{read}\PYG{p}{(}\PYG{n}{Seq}\PYG{o}{\PYGZlt{}}\PYG{o}{?}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{Shape}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{src}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n}{Shape}\PYG{+w}{ }\PYG{n}{s}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{src}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// OK}
+\PYG{+w}{  }\PYG{c+c1}{// src.add(new Circle()); // CANNOT add}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// ? super T: WRITING (consumer — setters)}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{write}\PYG{p}{(}\PYG{n}{Seq}\PYG{o}{\PYGZlt{}}\PYG{o}{?}\PYG{+w}{ }\PYG{k+kd}{super}\PYG{+w}{ }\PYG{n}{Circle}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{dest}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n}{dest}\PYG{p}{.}\PYG{n+na}{add}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Circle}\PYG{p}{(}\PYG{l+m+mf}{5.0}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// OK}
+\PYG{+w}{  }\PYG{c+c1}{// Circle c = dest.get(0); // CANNOT get specific type}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

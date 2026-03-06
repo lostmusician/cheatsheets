@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{String}\PYG{p}{.}\PYG{n+na}{format}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZpc{}s scored \PYGZpc{}d/\PYGZpc{}d (\PYGZpc{}.1f\PYGZpc{}\PYGZpc{})}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{name}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{got}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{total}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{got}\PYG{o}{*}\PYG{l+m+mf}{100.0}\PYG{o}{/}\PYG{n}{total}\PYG{p}{)}
+\PYG{n}{String}\PYG{p}{.}\PYG{n+na}{format}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Hex: 0x\PYGZpc{}08X}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}
+\PYG{n}{String}\PYG{p}{.}\PYG{n+na}{format}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZpc{}\PYGZhy{}10s | \PYGZpc{}8.2f}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{item}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{price}\PYG{p}{)}
+\end{MintedVerbatim}

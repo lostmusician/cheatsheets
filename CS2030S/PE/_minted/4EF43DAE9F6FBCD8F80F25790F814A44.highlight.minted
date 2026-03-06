@@ -1,0 +1,31 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{class} \PYG{n+nc}{TicketSubmittedEvent}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{Event}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{RTSystem}\PYG{+w}{ }\PYG{n}{rtsys}\PYG{p}{;}
+\PYG{+w}{  }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{Ticket}\PYG{+w}{ }\PYG{n}{ticket}\PYG{p}{;}
+
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n+nf}{TicketSubmittedEvent}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{time}\PYG{p}{,}
+\PYG{+w}{      }\PYG{n}{RTSystem}\PYG{+w}{ }\PYG{n}{rtsys}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Ticket}\PYG{+w}{ }\PYG{n}{ticket}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{super}\PYG{p}{(}\PYG{n}{time}\PYG{p}{)}\PYG{p}{;}\PYG{+w}{          }\PYG{c+c1}{// pass time to Event}
+\PYG{+w}{    }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{rtsys}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{rtsys}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{ticket}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ticket}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{n+nd}{@Override}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{Event}\PYG{o}{[}\PYG{o}{]}\PYG{+w}{ }\PYG{n+nf}{simulate}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{try}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{rtsys}\PYG{p}{.}\PYG{n+na}{fileTicket}\PYG{p}{(}\PYG{n}{ticket}\PYG{p}{)}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{catch}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{CongestionException}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{      }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Event}\PYG{o}{[}\PYG{o}{]}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{TicketDroppedEvent}\PYG{p}{(}\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{getTime}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ticket}\PYG{p}{)}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Event}\PYG{o}{[}\PYG{o}{]}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{p}{\PYGZcb{}}\PYG{p}{;}\PYG{+w}{   }\PYG{c+c1}{// no follow\PYGZhy{}up events}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{  }\PYG{n+nd}{@Override}
+\PYG{+w}{  }\PYG{k+kd}{public}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n+nf}{toString}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{k+kd}{super}\PYG{p}{.}\PYG{n+na}{toString}\PYG{p}{(}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{ticket}
+\PYG{+w}{        }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{ submitted }\PYG{l+s}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{k}{this}\PYG{p}{.}\PYG{n+na}{rtsys}\PYG{p}{;}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} Run with input file}
+java\PYG{+w}{ }Main\PYG{+w}{ }\PYGZlt{}\PYG{+w}{ }inputs/PE1.1.in
+
+\PYG{c+c1}{\PYGZsh{} Redirect output to file, then vim\PYGZhy{}diff}
+java\PYG{+w}{ }PE1\PYG{+w}{ }\PYGZlt{}\PYG{+w}{ }inputs/PE1.1.in\PYG{+w}{ }\PYGZgt{}\PYG{+w}{ }OUT
+vim\PYG{+w}{ }\PYGZhy{}d\PYG{+w}{ }OUT\PYG{+w}{ }outputs/PE1.1.out
+
+\PYG{c+c1}{\PYGZsh{} Inline diff (shows differences directly)}
+diff\PYG{+w}{ }\PYGZlt{}\PYG{o}{(}java\PYG{+w}{ }Main\PYG{+w}{ }\PYGZlt{}\PYG{+w}{ }inputs/PE1.1.in\PYG{o}{)}\PYG{+w}{ }outputs/PE1.1.out
+\end{MintedVerbatim}

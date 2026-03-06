@@ -1,0 +1,4 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n+nd}{@SuppressWarnings}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{unchecked}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{T}\PYG{o}{[}\PYG{o}{]}\PYG{+w}{ }\PYG{n}{arr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{T}\PYG{o}{[}\PYG{o}{]}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{Object}\PYG{o}{[}\PYG{n}{size}\PYG{o}{]}\PYG{p}{;}
+\end{MintedVerbatim}

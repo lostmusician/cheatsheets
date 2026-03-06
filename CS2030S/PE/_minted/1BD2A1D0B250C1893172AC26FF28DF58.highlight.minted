@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZdq{} \PYGZti{}/.vimrc}
+\PYG{k}{set} \PYG{k}{number}
+\PYG{k}{set} \PYG{n+nb}{relativenumber}
+\PYG{k}{set} \PYG{n+nb}{mouse}\PYG{p}{=}\PYG{k}{a}
+\end{MintedVerbatim}
