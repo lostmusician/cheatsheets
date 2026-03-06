@@ -1,0 +1,436 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Java OOP Practical Cheatsheet (single-page / two-column compact)
+% No imports allowed — assume only java.lang is available.
+% Created as a quick reference for practical lab exams: core OOP patterns,
+% class templates, common methods, and quick debugging checks.
+
+\documentclass[10pt,a4paper,landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage[T1]{fontenc}
+\IfFileExists{inconsolata.sty}{\usepackage{inconsolata}}{}
+\usepackage[landscape]{geometry}
+\usepackage{enumitem}
+\pagestyle{empty}
+% Use A4 paper with tight margins suitable for a cheatsheet
+\geometry{paper=a4paper,top=8mm,left=8mm,right=8mm,bottom=8mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setcounter{secnumdepth}{0}
+\makeatletter
+% Increase vertical spacing before and after section titles for readability
+\renewcommand\section{\@startsection{section}{1}{0pt}{6pt}{4pt}{\normalfont\footnotesize\bfseries}}
+\makeatother
+% inline code helper (use \detokenize to safely print backslashes/special chars)
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\begin{document}
+\scriptsize\sloppy
+\begin{center}\textbf{OOP Practical Cheatsheet — Java (no imports)}\end{center}
+\begin{multicols}{3}
+\raggedcolumns
+\setlength{\columnsep}{6pt}
+\setlength{\multicolsep}{2pt}
+\setlist{noitemsep,topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt}
+\setlist[itemize]{noitemsep,leftmargin=*}
+\setlist[enumerate]{noitemsep,leftmargin=*}
+
+%% Structure (follow during exam)
+\section*{Exam workflow}
+\begin{itemize}
+  \item Read Q: identify classes, responsibilities, data; sketch class names \& fields.
+  \item Start with data model (POJOs), constructors, getters/setters, toString().
+  \item Implement behavior (methods) + small test in main().
+  \item Edge cases: nulls, empty lists, negative numbers, duplicates.
+  \item Keep code compiling: add one class at a time; run often.
+\end{itemize}
+
+\section*{Class template}
+\begin{verbatim}
+class ClassName {
+  // fields
+  private int n;
+  private String s;
+
+  // constructors
+  public ClassName() { this.n = 0; this.s = ""; }
+  public ClassName(int n, String s) { this.n = n; this.s = s; }
+
+  // getters/setters
+  public int getN() { return n; }
+  public void setN(int n) { this.n = n; }
+
+  public String getS() { return s; }
+  public void setS(String s) { this.s = s; }
+
+  // toString
+  public String toString() { return "ClassName("+n+","+s+")"; }
+}
+\end{verbatim}
+
+\section*{Common signatures}
+\begin{itemize}
+  \item main: public static void main(String[] args)
+  \item equals: public boolean equals(Object o)
+  \item compareTo: public int compareTo(Type o) // if implementing Comparable
+  \item hashCode: public int hashCode()
+\end{itemize}
+
+\section*{Equality / compare templates}
+\begin{verbatim}
+public boolean equals(Object o){
+  if(this==o) return true;
+  if(o==null || getClass() != o.getClass()) return false;
+  ClassName that = (ClassName) o;
+  return n==that.n && (s==null ? that.s==null : s.equals(that.s));
+}
+
+public int compareTo(ClassName o){
+// Comparable<ClassName>
+  if(n!=o.n) return n < o.n ? -1 : 1;
+  if(s==null && o.s==null) return 0;
+  if(s==null) return -1;
+  if(o.s==null) return 1;
+  return s.compareTo(o.s);
+}
+\end{verbatim}
+
+\section*{Useful patterns}
+\subsection*{Null-safe getter}
+\begin{verbatim}
+public String getSafe() {
+  return (s == null) ? "" : s;
+}
+\end{verbatim}
+
+\subsection*{Simple factory}
+\begin{verbatim}
+public static ClassName of(int n, String s) { return new ClassName(n,s); }
+\end{verbatim}
+
+\subsection*{Singleton (lazy)}
+\begin{verbatim}
+class Sng {
+  private static Sng inst;
+  private Sng() {}
+  public static Sng get(){
+    if(inst==null) inst=new Sng();
+    return inst;
+  }
+}
+\end{verbatim}
+
+\section*{Collections w/o imports (use arrays and String methods)}
+\begin{itemize}
+  \item length: arr.length for arrays, s.length() for strings
+  \item iterate: for(int i=0;i<arr.length;i++) { /* arr[i] */ }
+  \item resize (manual): create new array and copy
+  \item search: linear scan
+  \item split: s.split("regex") is allowed (String method)
+\end{itemize}
+
+\section*{String handy methods}
+\begin{itemize}
+  \item \code{s.equals(t)}, \code{s.equalsIgnoreCase(t)}
+  \item \code{s.startsWith("x")}, \code{s.endsWith("y")}
+  \item \code{s.indexOf("sub")}, \code{s.lastIndexOf("sub")}
+  \item \code{s.contains("sub")} — check substring presence
+  \item \code{s.charAt(i)} — character at index (watch bounds)
+  \item \code{s.split("regex")} returns \code{String[]} — beware regex special chars
+  \item \code{String.format("\%d", x)} — static formatter
+  \item \code{s.substring(a,b)}, \code{s.substring(a)}
+  \item \code{s.replace("a","b")}, \code{s.toLowerCase()}, \code{s.toUpperCase()}, \code{s.trim()}
+  \item \code{String.valueOf(x)}, \code{Integer.parseInt(s)} (throws \code{NumberFormatException})
+  \item \code{Long.parseLong(s)}, \code{Double.parseDouble(s)} (same parse caveats)
+  \item \code{s.isEmpty()} and \code{(s==null || s.isEmpty())}
+  \item Use try/catch for parse:
+  \begin{verbatim}
+try {
+  int v = Integer.parseInt(s);
+} catch (NumberFormatException e) { /* fallback */ }
+  \end{verbatim}
+\end{itemize}
+
+\section*{OOP design — common violations and quick fixes}
+\begin{itemize}
+  \item God object: one class does too much. Fix: split responsibilities into smaller classes (SRP).
+  \item Leaky encapsulation: exposing internals (public fields, exposing arrays). Fix: make fields private; return copies for mutable arrays.
+  \item Tight coupling: classes depend on concrete implementations. Fix: depend on abstractions (small interfaces) and pass collaborators via constructor.
+  \item Feature envy: method uses more of another class's data than its own. Fix: move method to the class with the data or add small accessors.
+  \item Improper inheritance: using inheritance for code reuse. Fix: prefer composition; inherit only when "is-a" relationship holds.
+  \item Lack of immutability where beneficial: mutable shared objects causing bugs. Fix: make objects immutable (final fields, no setters) where appropriate.
+  \item Missing equals/hashCode: failing to override equals but using objects in sets/maps. Fix: implement both equals(Object) and hashCode() consistently.
+  \item Long parameter lists: hard to read and error-prone. Fix: introduce small value object or builder pattern.
+  \item Silent exception swallowing: catch(Exception e) { } hiding errors. Fix: log or rethrow with meaningful message; handle expected exceptions explicitly.
+  \item Overuse of static: global state leads to testability issues. Fix: use instance fields and dependency injection where possible.
+\end{itemize}
+
+\section*{I/O tips (no imports)}
+\begin{itemize}
+  \item Use System.out.println(...) for output; System.out.print for no newline.
+  \item Read input via Scanner usually but imports disallowed — in that case exam likely supplies signature or helper methods; if not, use java.io classes only if allowed.
+  \item For safe parsing: try { Integer.parseInt(s) } catch(NumberFormatException e) { /* fallback */ }
+\end{itemize}
+
+\section*{Handy utilities (common methods)}
+\begin{itemize}
+  \item Math.abs(x), Math.max(a,b), Math.min(a,b), Math.pow(a,b), Math.sqrt(x), Math.random()
+  \item StringBuilder sb = new StringBuilder(); sb.append(...); sb.toString()
+  \item System.arraycopy(src,0,dest,0,src.length) for fast array copy
+  \item Arrays.sort(arr) requires import — if disallowed implement simple sort (e.g., selection sort)
+  \item Character.isDigit(c), Character.isLetter(c), Character.toLowerCase(c), Character.toUpperCase(c)
+  \item Integer.toString(i), Long.toString(l), Double.toString(d)
+  \item Object.clone() only for Cloneable; prefer copy constructors
+\end{itemize}
+
+\section*{More useful methods (no imports required)}
+\begin{itemize}
+  \item Safe abs without Math: \code{int abs(int x)\{ return (x<0) ? -x : x; \} // beware Integer.MIN\_VALUE overflow}
+  \item Clamp value: int clamp(int v,int lo,int hi){ if(v<lo) return lo; if(v>hi) return hi; return v; }
+  \item Safe divide: double safeDiv(double a,double b,double def){ return (b==0) ? def : (a/b); }
+  \item Integer power (fast integer pow):
+  \begin{verbatim}
+int ipow(int a,int e){ int r=1; while(e>0){ if((e&1)==1) r*=a; a*=a; e>>=1; } return r; }
+  \end{verbatim}
+  \item Null-safe equals: \code {boolean eq(Object a,Object b)\{ return a==null? b==null : a.equals(b); \}}
+  \item Join strings (no String.join):
+  \begin{verbatim}
+String join(String sep,String[] arr){
+  StringBuilder sb=new StringBuilder();
+  for(int i=0;i<arr.length;i++){
+    if(i>0) sb.append(sep);
+    sb.append(arr[i]);
+  }
+  return sb.toString();
+}
+  \end{verbatim}
+  \item Insertion sort (stable, good for small arrays):
+  \begin{verbatim}
+for(int i = 1; i < n; i++) {
+    int v = a[i], j = i;
+    while( j > 0 && a[j-1] > v){
+        a[j] = a[j - 1];
+        j--;
+    }
+    a[j] = v;
+}
+  \end{verbatim}
+  \item Binary search (iterative) on sorted int[]:
+  \begin{verbatim}
+int bsearch(int[] a, int key){
+  int lo = 0, hi = a.length - 1;
+  while(lo <= hi){
+    int mid = (lo + hi) >>> 1;
+    if(a[mid] == key) return mid;
+    if(a[mid] < key) lo = mid + 1;
+    else hi = mid - 1;
+  }
+  return -1;
+}
+  \end{verbatim}
+  \item Array copy manual (if System.arraycopy unavailable):
+  \begin{verbatim}
+for(int i=0;i<src.length;i++) dest[i]=src[i];
+  \end{verbatim}
+  \item Safe parse with default: int parseIntOr(String s,int d){ try{ return Integer.parseInt(s);}catch(NumberFormatException e){return d;} }
+  \item Regex via String: s.matches("regex"), s.replaceAll(...), s.replaceFirst(...)
+  \item String formatting: String.format("\%d: \%s", i, s)
+  \item GCD/LCM:
+  \begin{verbatim}
+int gcd(int a,int b){
+  while(b!=0){
+    int t = a % b;
+    a = b;
+    b = t;
+  }
+  return a<0? -a : a;
+}
+int lcm(int a,int b){ return a/gcd(a,b)*b; }
+  \end{verbatim}
+  \item Palindrome (string):
+  \begin{verbatim}
+boolean isPal(String t){
+  for(int i=0,j=t.length()-1;i<j;i++,j--)
+    if(t.charAt(i)!=t.charAt(j)) return false;
+  return true;
+}
+  \end{verbatim}
+  \item Swap in array: 
+  \begin{verbatim}
+void swap(int[] a, int i, int j){
+  int t = a[i];
+  a[i] = a[j];
+  a[j] = t; 
+}
+  \end{verbatim}
+  
+\end{itemize}
+
+\section*{Generics \& wildcards (compact)}
+\begin{itemize}
+  \item Generic class: class Box<T> { private T v; public Box(T v){this.v=v;} public T get(){return v;} }
+  \item Method generics: public static <T> T id(T x){ return x; }
+  \item Bounded types: <T extends Number> (upper bound); <T super Integer> not allowed in declaration, use wildcards in usage
+  \item Wildcards: List<? extends Number> read-only (producer); List<? super Integer> write-friendly (consumer)
+  \item PECS mnemonic: Producer Extends, Consumer Super
+  \item Generic array warning: cannot create new T[]; use Object[] cast or ArrayList<T> (but imports prohibited) or pass in factory.
+  \item Raw types (List instead of List<String>) compile with warnings — avoid where possible.
+  \item Example: void copy(List<? super T> dest, List<? extends T> src) { for(T x: src) dest.add(x); }
+\end{itemize}
+
+\subsection*{Generics — examples}
+\begin{verbatim}
+// Generic class
+class Box<T> {
+  private T v;
+  public Box(T v){ this.v = v; }
+  public T get(){ return v; }
+  public void set(T v){ this.v = v; }
+}
+
+// Diamond operator (type inference on constructor)
+Box<String> b1 = new Box<>("hello"); // diamond
+Box<Integer> b2 = new Box<Integer>(42); // explicit
+
+// Generic method (inferred and explicit type witness)
+public static <T> T id(T x){ return x; }
+String s = id("hi");             // inferred
+Integer n = MyClass.<Integer>id(5); // explicit
+
+// Bounded type parameter
+public static <T extends Number> double sum(T a, T b){
+  return a.doubleValue() + b.doubleValue();
+}
+double tot = sum(1, 2); // works with boxed ints
+\end{verbatim}
+
+\section*{Algorithms snippets}
+\section*{Array utilities (manual)}
+\begin{verbatim}
+int sum(int[] a) {
+    int s = 0;
+    for (int i = 0 ; i < a.length ; i++) {
+        s+=a[i]; 
+    }
+  return s;
+}
+
+double avg(int[] a) {
+    return a.length == 0 ? 0.0 : (double) sum(a) / a.length;
+}
+
+int minIndex(int[] a){
+    int mi=0;
+    for(int i = 1; i < a.length ; i++) {
+        if (a[i] < a[mi]) mi=i;
+    }
+    return mi; 
+}
+
+int[] copyOf(int[] a,int n){
+    int[] b = new int[n];
+    int m = a.length < n ? a.length : n;
+    for(int i=0 ; i < m; i++) {
+        b[i] = a[i];
+    }
+    return b;
+}
+\end{verbatim}
+
+\section*{Access modifiers quick ref}
+\begin{itemize}
+  \item public: visible everywhere; protected: package + subclasses; (default): package only; private: within class.
+  \item static: belongs to class (shared); final: cannot reassign; final class: cannot extend; final method: cannot override.
+  \item override rules: @Override (annotation optional), same signature, covariant return allowed, cannot reduce visibility.
+\end{itemize}
+
+\section*{OOP design quick tips}
+\begin{itemize}
+  \item Single responsibility: each class has one role.
+  \item Encapsulate fields (private) and expose minimal API.
+  \item Prefer composition over inheritance unless clearly is-a.
+  \item Use small helper methods to keep main methods readable.
+\end{itemize}
+
+\section*{Debug checklist}
+\begin{itemize}
+  \item Does it compile? fix first compilation error then re-run.
+  \item Off-by-one in loops? check indices and loop bounds.
+  \item NullPointerException: check which var is null; add guards.
+  \item ArrayIndexOutOfBounds: check arr.length and indices.
+  \item Wrong output: trace with System.out.println intermediate values.
+\end{itemize}
+
+\section*{Java style rules (quick ref)}
+    \textbf{Identifiers}
+\begin{itemize}
+  \item One variable per declaration.
+  \item Arrays are to be declared \code{A[] arr}
+  \item Class modifiers: \code{public} \code{protected} \code{private} \code{abstract} \code{default} \code{static} \code{final} \code{transient} \code{volatile} \code{synchronized} \code{native} \code{strictfp}
+  \item Class names written in UpperCamelCase
+  \item Method names written in lowerCamelCase
+  \item Constants (static final) in ALL\_CAPS\_SNAKE\_CASE
+\end{itemize}
+  	\textbf{Statements}
+\begin{itemize}
+  \item Switch statements need a default case
+  \item One annotation per line
+  \item Always use \code{@Override}
+  \item Caught exceptions should not be ignored.
+  \item No wildcard imports. \code{import java.util.*}
+  \item Import statements should be in alphabetical order.
+\end{itemize}
+
+\section*{Exam strategy}
+\begin{itemize}
+  \item Build minimal working solution first (happy path), then add error handling.
+  \item Keep code simple and well-named; markers reward clarity.
+  \item Comment only when necessary; short inline comments ok.
+\end{itemize}
+
+\section*{Vim quick config (relative numbers + mouse)}
+\begin{itemize}
+  \item Persistent: add to \code{~/.vimrc} (Vim) or \code{~/.config/nvim/init.vim} (Neovim):
+\end{itemize}
+\begin{verbatim}
+set number          " show absolute line number on current line
+set relativenumber  " show relative numbers for easier jumps
+set mouse=a         " enable mouse in all modes
+\end{verbatim}
+\begin{itemize}
+  \item One-off in a session: \code{:set nu rnu} (on), \code{:set nonu norelativenumber} (off), \code{:set mouse=a} (on), \code{:set mouse=} (off).
+  \item Toggle relative quickly: \code{:set invrelativenumber}
+\end{itemize}
+
+\section*{Vim essentials — motions, search, replace}
+\begin{itemize}
+  \item Save/quit: \code{:w}, \code{:q}, \code{:wq}, force quit \code{:q!}
+  \item Insert: \code{i} (before), \code{a} (after), \code{o}/\code{O} new line; Undo \code{u}, Redo \code{Ctrl-r}
+  \item Move: \code{h j k l}, word \code{w e b}, line start/end \code{0 \$}, file \code{gg/G}
+  \item Numbers: with relative numbers, \code{5j} down 5, \code{10dd} delete 10 lines
+  \item Search: \code{/pattern} forward, \code{?pattern} back, next \code{n}, prev \code{N}
+  \item Replace current line: \code{:s/old/new/} first match; add \code{g} for all in line: \code{:s/old/new/g}
+  \item Replace whole file: \code{:\%s/old/new/g} (all), add \code{c} to confirm: \code{:\%s/old/new/gc}
+  \item Word-boundary: \code{:\%s/\textbackslash<old\textbackslash>/new/g}
+  \item Case-insensitive: prefix pattern with \code{\textbackslash c} e.g., \code{:\%s/\textbackslash cold/new/g}; or \code{:set ignorecase smartcase}
+  \item Escape slashes or pick another delimiter: \code{:\%s#path/old#path/new#g}
+  \item Visual range replace: select, then \code{:s/old/new/g}
+\end{itemize}
+
+\section*{Java String.format(\%...) guide}
+\begin{itemize}
+  \item Basic: \code{String.format("Name: \%s, Age: \%d", name, age)}
+  \item Common conversions: \code{\%s} string, \code{\%d} int, \code{\%f} float/double, \code{\%b} boolean, \code{\%c} char, \code{\%x} hex, \code{\%n} newline
+  \item Width/precision: \code{\%8d} pad left to width 8; \code{\%.2f} 2 decimals; \code{\%8.2f} width 8 with 2 decimals
+  \item Flags: \code{-} left align (e.g., \code{\%-8s}); \code{0} zero pad numbers (e.g., \code{\%05d}); \code{+} show sign (\code{\%+d}); space for leading space (\code{\% d}); \code{,} grouping (\code{\%,d}); \code{(} negatives in parentheses (\code{\%(d)})
+  \item Indexing args: \code{\%2\$\,d} uses 2nd arg with grouping; reuse: \code{\%1\$d \%1\$x}
+  \item Date/time (via Formatter): \code{\%tY-\%tm-\%td} year-month-day from a \code{java.util.Date} or \code{Calendar}
+\end{itemize}
+\begin{verbatim}
+String.format("%s scored %d/%d (%.1f%%)", name, got, total, got*100.0/total)
+String.format("Hex: 0x%08X", n)
+String.format("%-10s | %8.2f", item, price)
+String.format("%,d items", count)
+\end{verbatim}
+
+\end{multicols}
+\end{document}

@@ -10,6 +10,7 @@
 \usepackage{newtxtext} 
 \usepackage{enumitem}
 \usepackage{amssymb}
+\usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{vwcol}
 \usepackage{tikz}
@@ -170,21 +171,6 @@ class Circle {
 
 \subsection{Immutability}
 Object state cannot be modified after creation. Use \texttt{final}.
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-class ImmutablePoint {
-    private final double x;
-    private final double y;
-    
-    public ImmutablePoint(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-    
-    public ImmutablePoint move(double dx, double dy) {
-        return new ImmutablePoint(x + dx, y + dy);
-    }
-}
-\end{minted}
 
 \subsection{Tell, Don't Ask}
 Tell objects what to do; don't ask for their state.
@@ -212,14 +198,6 @@ circle.isLargerThan(5.0)
 \section{02 Inheritance \& Polymorphism}
 \subsection{Inheritance}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-class Shape {
-    private String color;
-    public Shape(String color) {
-        this.color = color;
-    }
-    double getArea() { return 0; }
-}
-
 class Circle extends Shape {
     private double radius;
     
@@ -234,8 +212,19 @@ class Circle extends Shape {
     }
 }
 \end{minted}
-\textbf{Overriding}: Use \texttt{@Override}. Must match Method Descriptor (Name, Parameters, Return Type).\\
-\textbf{Overloading}: Same name, different Method Signature (Name, Parameter Types).
+\noindent
+{\footnotesize
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}p{2.9cm}|}
+\hline
+\textbf{Feature} & \textbf{Overloading (Static)} & \textbf{Overriding (Dynamic)} \\ \hline
+\textbf{Scope} & Same class or inherited & Between subclass \& superclass \\ \hline
+\textbf{Signature} & \textbf{Different} params (type, order, \#) & \textbf{Same} params \& name \\ \hline
+\textbf{Return Type} & Can be different & \textbf{Covariant} ($Ret_{sub} <: Ret_{parent}$) \\ \hline
+\textbf{Access} & Can be different & \textbf{Non-weaker} (same or more open) \\ \hline
+\textbf{Exceptions} & Can be different & \textbf{Fewer} or \textbf{more specific} checked \\ \hline
+\textbf{Binding} & \textbf{Compile-Time} (CTT of args) & \textbf{Run-Time} (RTT of target) \\ \hline
+\end{tabular}
+}
 
 \subsection{Polymorphism}
 Same interface, different implementations.
@@ -322,18 +311,25 @@ int j = i;      // auto-unboxing (line 2)
   \item Performance cost: objects stored on heap; wrapper classes are immutable
 \end{itemize}
 
-\section{Type Checking}
-\texttt{a = (C) b}: where \texttt{b} has CTT(b) and RTT(b).
+\section{Type Casting \& Checking}
+\texttt{a = (C) b;} where \texttt{b} has \texttt{CTT(b)} and \texttt{RTT(b)}.
+
+\subsection{Compile-Time Check (The ``Is it Possible?'' Rule)}
+The compiler allows the cast if there is any theoretical chance \texttt{RTT(b) <: C}.
 \begin{itemize}
-  \item Find CTT(b); check if possible for RTT(b) $<:$ C
-  \begin{itemize}
-    \item CTT(b) $<:$ C: widening cast, allowed at compile time
-    \item C $<:$ CTT(b): narrowing, requires runtime check for RTT(b)
-    \item C is interface: could be a subclass of B implementing C
-  \end{itemize}
-  \item \textbf{Impossibility}: B and C are unrelated; C is interface and B is final
-  \item Find CTT(a): check C $<:$ CTT(a); add runtime check for RTT(b) $<:$ C
-  \item \textbf{Run Time}: Find RTT(b); check if RTT(b) $<:$ C
+    \item \textbf{Widening}: \texttt{CTT(b) <: C}. Always allowed; no runtime check needed.
+    \item \textbf{Narrowing}: \texttt{C <: CTT(b)}. Allowed; requires runtime check (\texttt{ClassCastException} if fails).
+    \item \textbf{Interface Exception}: If \texttt{C} is an interface and \texttt{CTT(b)} is a non-final class, the cast is \textit{always} allowed at compile-time. Reason: A future subclass of \texttt{CTT(b)} could implement \texttt{C}.
+    \item \textbf{Cross-Casting}: Casting between two unrelated interfaces is always allowed at compile-time for the same reason (a class could implement both).
+    \item \textbf{Hard Fail}: If \texttt{C} and \texttt{CTT(b)} are unrelated classes, OR \texttt{CTT(b)} is \texttt{final} and does not implement interface \texttt{C}.
+\end{itemize}
+
+\subsection{Run-Time Check}
+The JVM ignores \texttt{CTT} and looks only at the heap:
+\begin{itemize}
+    \item Check: \texttt{RTT(b) <: C}? 
+    \item \textbf{Success}: Execution continues; \texttt{CTT(a)} is now \texttt{C}.
+    \item \textbf{Failure}: Throws \texttt{ClassCastException}.
 \end{itemize}
 
 \section{Variance}
