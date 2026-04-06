@@ -161,61 +161,88 @@ class TicketSubmittedEvent extends Event {
 \end{itemize}
 
 \section{Queue \& Inheritance}
-\subsection{Queue Signature}
-\texttt{class Queue<T> implements Comparable<Queue<T>>}
+\subsection{Queue Initialisation}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-class Queue<T> implements Comparable<Queue<T>> {
-  private Object[] items;
-  private int first, last, len, maxSize;
+// Basic queue of fixed size
+Queue<Integer> q = new Queue<>(10);
 
-  Queue(int maxSize) {
-    this.maxSize = maxSize;
-    this.items = new Object[maxSize];
+// Array of generic queues (unchecked cast required)
+@SuppressWarnings("unchecked")
+Queue<Passenger>[] stops =
+    (Queue<Passenger>[]) new Queue<?>[totalStops];
+for (int i = 0; i < totalStops; i++)
+    stops[i] = new Queue<>(capacity);
+
+// Queue of queues
+Queue<Queue<Task>> qOfQ = new Queue<>(5);
+\end{minted}
+
+\subsection{Queue Implementation}
+\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
+class Queue<T> {
+  private T[] items;
+  private int first;
+  private int last;
+  private int maxSize;
+  private int len;
+
+  public Queue(int size) {
+    this.maxSize = size;
+    this.first = -1;
+    this.last = -1;
     this.len = 0;
+    @SuppressWarnings("unchecked")
+    T[] temp = (T[]) new Object[size];
+    this.items = temp;
   }
 
-  boolean isFull()  { return len == maxSize; }
-  boolean isEmpty() { return len == 0; }
-  int length()      { return len; }
-
-  Queue<T> enq(T e) {
-    if (isFull()) throw new RuntimeException("Full");
-    if (isEmpty()) { first = 0; last = 0; }
-    else           { last = (last + 1) % maxSize; }
-    items[last] = e;
-    len++;
-    return this;
+  public boolean enq(T e) {
+    if (this.isFull()) return false;
+    if (this.isEmpty()) { this.first = 0; this.last = 0; }
+    else { this.last = (this.last + 1) % this.maxSize; }
+    this.items[last] = e;
+    this.len += 1;
+    return true;
   }
 
-  @SuppressWarnings("unchecked")
-  T deq() {
-    if (isEmpty()) throw new RuntimeException("Empty");
-    T val = (T) items[first];
-    first = (first + 1) % maxSize;
-    len--;
-    return val;
+  public T deq() {
+    if (this.isEmpty()) return null;
+    T item = this.items[this.first];
+    this.first = (this.first + 1) % this.maxSize;
+    this.len -= 1;
+    return item;
   }
 
-  @SuppressWarnings("unchecked")
-  T peek() {
-    if (isEmpty()) throw new RuntimeException("Empty");
-    return (T) items[first];
+  public T peek() {
+    if (this.isEmpty()) return null;
+    return this.items[this.first];
   }
+
+  public boolean isFull()  { return this.len == this.maxSize; }
+  public boolean isEmpty() { return this.len == 0; }
+  public int length()      { return this.len; }
 
   @Override
-  public int compareTo(Queue<T> other) {
-    // < 0: this smaller; 0: equal; > 0: this larger
-    return this.length() - other.length();
+  public String toString() {
+    String str = "[ ";
+    int i = this.first;
+    int count = 0;
+    while (count < this.len) {
+      str += this.items[i] + " ";
+      i = (i + 1) % this.maxSize;
+      count++;
+    }
+    return str + "]";
   }
 }
 \end{minted}
 
 \subsection{enq Circular Logic}
 \begin{enumerate}
-  \item Check \texttt{isFull()}.
+  \item If \texttt{isFull()}, return \texttt{false}.
   \item If \texttt{isEmpty()}, set \texttt{first = last = 0}.
   \item Otherwise, \texttt{last = (last + 1) \% maxSize}.
-  \item Store element at \texttt{items[last]} and increment \texttt{len}.
+  \item Store element at \texttt{items[last]}, increment \texttt{len}, return \texttt{true}.
 \end{enumerate}
 
 \subsection{Comparable Rules}
@@ -270,7 +297,7 @@ void write(Seq<? super Circle> dest) {
 Cannot use \texttt{new T[]} (type erasure). Cast from \texttt{Object[]}:
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
 @SuppressWarnings("unchecked")
-T[] arr = (T[]) new Object[size];
+Queue<Passenger>[] temp = (Queue<Passenger>[]) new Queue<?>[totalStops];
 \end{minted}
 Suppress only after justifying: array is \texttt{private}; only modified by typed setter; only returns subtypes of T.
 
@@ -323,14 +350,27 @@ try {
 }
 \end{minted}
 
-\subsection{Factory Methods}
+\subsection{Seq + Exception Example}
 \begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{java}
-// Static factory (often named "of")
-public static ClassName of(int n, String s) {
-  return new ClassName(n, s);
+class RTSystem {
+  private Seq<TicketQueue> seq;
+
+  public RTSystem(int numQueues, int queueSize) {
+    this.seq = new Seq<>(numQueues);
+    for (int i = 0; i < numQueues; i++) {
+      this.seq.set(i, new TicketQueue(i, queueSize));
+    }
+  }
+
+  public RTSystem fileTicket(Ticket t)
+      throws CongestionException {
+    TicketQueue q = this.seq.get(t.getPriority());
+    if (q.isFull()) throw new CongestionException(t.getPriority());
+    q.enq(t);
+    return this;
+  }
 }
 \end{minted}
-\textbf{Key advantage}: Can return cached/existing instances (unlike constructors which always allocate new heap memory); can return subtypes; more descriptive name.
 
 \section{Useful Patterns}
 \subsection{Null-safe \& parse helpers}
@@ -373,15 +413,6 @@ for (int i = 1; i < n; i++) {
 }
 \end{minted}
 
-\section{Handy Utilities}
-\begin{itemize}
-  \item \texttt{Math.abs(x)}, \texttt{Math.max(a,b)}, \texttt{Math.min(a,b)}, \texttt{Math.pow(a,b)}, \texttt{Math.sqrt(x)}
-  \item \texttt{StringBuilder sb = new StringBuilder(); sb.append(...); sb.toString()}
-  \item \texttt{System.arraycopy(src,0,dest,0,n)} — fast array copy
-  \item \texttt{Character.isDigit(c)}, \texttt{Character.isLetter(c)}, \texttt{Character.toLowerCase(c)}
-  \item \texttt{Integer.toString(i)}, \texttt{Long.toString(l)}, \texttt{Double.toString(d)}
-\end{itemize}
-
 \section{OOP Design Quick Tips}
 \begin{itemize}
   \item \textbf{SRP}: Each class has one role. Split god objects.
@@ -401,20 +432,6 @@ for (int i = 1; i < n; i++) {
   \item Override: same signature, covariant return OK, cannot reduce visibility
 \end{itemize}
 
-\section{Java Style Rules}
-\textbf{Identifiers}
-\begin{itemize}
-  \item \texttt{UpperCamelCase} for classes; \texttt{lowerCamelCase} for methods
-  \item \texttt{ALL\_CAPS\_SNAKE\_CASE} for constants (\texttt{static final})
-  \item One variable per declaration; arrays: \texttt{A[] arr}
-\end{itemize}
-\textbf{Statements}
-\begin{itemize}
-  \item Switch needs default case; always use \texttt{@Override}
-  \item Don't ignore caught exceptions; no wildcard imports
-  \item Import statements in alphabetical order
-\end{itemize}
-
 \section{Debug Checklist}
 \begin{itemize}
   \item Compile error? Fix first error, then re-run.
@@ -423,27 +440,6 @@ for (int i = 1; i < n; i++) {
   \item \texttt{ArrayIndexOutOfBounds}: check \texttt{arr.length} and indices.
   \item Wrong output: trace with \texttt{System.out.println} intermediate values.
 \end{itemize}
-
-\section{Vim Essentials}
-\begin{itemize}
-  \item Save/quit: \texttt{:w}, \texttt{:q}, \texttt{:wq}, force \texttt{:q!}
-  \item Insert: \texttt{i} before, \texttt{a} after, \texttt{o}/\texttt{O} new line; Undo \texttt{u}, Redo \texttt{Ctrl-r}
-  \item Move: \texttt{h j k l}; word \texttt{w e b}; line \texttt{0 \$}; file \texttt{gg/G}
-  \item \texttt{5j} down 5 lines; \texttt{10dd} delete 10 lines
-  \item Copy/Paste: \texttt{yy} yank line; \texttt{p} paste after; \texttt{P} paste before
-  \item Delete: \texttt{dd} cut line; \texttt{D} delete to end of line
-  \item \texttt{vsp [file]}: open file in vertical split
-  \item Search: \texttt{/pattern} fwd, \texttt{?pattern} back, \texttt{n}/\texttt{N} next/prev
-  \item Replace line: \texttt{:s/old/new/g}; whole file: \texttt{:\%s/old/new/g}; confirm: add \texttt{c}
-  \item Case-insensitive: \texttt{:\%s/\textbackslash cold/new/g} or \texttt{:set ignorecase smartcase}
-  \item Alt delimiter: \texttt{:\%s\#path/old\#path/new\#g}
-\end{itemize}
-\begin{minted}[breaklines,breakanywhere,bgcolor=lightblue]{vim}
-" ~/.vimrc
-set number
-set relativenumber
-set mouse=a
-\end{minted}
 
 \section{String.format Guide}
 \begin{itemize}
@@ -457,13 +453,6 @@ String.format("%s scored %d/%d (%.1f%%)",
 String.format("Hex: 0x%08X", n)
 String.format("%-10s | %8.2f", item, price)
 \end{minted}
-
-\section{Exam Strategy}
-\begin{itemize}
-  \item Build minimal working solution first (happy path), then add error handling.
-  \item Keep code simple and well-named; markers reward clarity.
-  \item Comment only when necessary; short inline comments ok.
-\end{itemize}
 
 \end{multicols}
 \end{document}
