@@ -1,0 +1,383 @@
+% CS2040S Comprehensive Finals Cheat Sheet
+% 3-column, A4 landscape, 2 pages, 7pt base
+\documentclass[7pt,landscape]{extarticle}
+
+\usepackage[landscape,a4paper,top=0.25in,bottom=0.25in,left=0.25in,right=0.25in]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath, amssymb}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{parskip}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+% Ultra-tight spacing
+\setlength{\columnsep}{0.25in}
+\setlength{\columnseprule}{0.5pt}
+\setlist{nosep, leftmargin=1.1em, topsep=1pt, itemsep=0pt}
+\setlength{\parskip}{0.7pt}
+
+% Custom Colors
+\definecolor{keywordcolor}{RGB}{25,70,145}
+\definecolor{commentcolor}{RGB}{34,139,34}
+
+\newcommand{\T}[1]{$O(#1)$}
+\newcommand{\code}[1]{\texttt{\fontsize{6pt}{7pt}\selectfont #1}}
+\newcommand{\TT}[2]{\textbf{#1} & \T{#2}\\}
+\newcommand{\mysubsec}[1]{%
+  \par\vspace{3pt}%
+  \noindent{\fontsize{6.5pt}{7.5pt}\selectfont\bfseries#1}%
+  \par\vspace{-1pt}\noindent{\hrule height 0.3pt}\vspace{1pt}\noindent\ignorespaces%
+}
+\newenvironment{ctbl}[1][ll]
+  {\begingroup\fontsize{6pt}{7pt}\selectfont\setlength{\tabcolsep}{3pt}%
+   \renewcommand{\arraystretch}{0.9}\begin{tabular}{@{}#1@{}}}
+  {\end{tabular}\endgroup}
+  
+% Clear Chapter Separators using titlesec
+\titleformat{\section}{\large\bfseries\color{keywordcolor}}{}{0em}{}[{\vspace{-2pt}\titlerule\vspace{2pt}}]
+\titlespacing*{\section}{0pt}{1.5ex plus 0.2ex minus .1ex}{0.5ex plus .1ex}
+\titlespacing*{\subsection}{0pt}{0.5ex plus 0.2ex minus .1ex}{0.2ex plus .1ex}
+
+% Code snippet styling
+\lstset{
+    basicstyle=\ttfamily\fontsize{6.5pt}{7.5pt}\selectfont,
+    keywordstyle=\color{keywordcolor}\bfseries,
+    commentstyle=\color{commentcolor}\itshape,
+    stringstyle=\color{red},
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    frame=none,
+    aboveskip=1pt,
+    belowskip=1pt,
+    xleftmargin=0pt,
+    language=Python
+}
+
+\begin{document}
+\begin{multicols*}{3}
+
+\section*{1. Algorithm Analysis}
+\begin{itemize}
+    \item \textbf{Big-O ($O$)}: Upper Bound. \textbf{Omega ($\Omega$)}: Lower Bound. \textbf{Theta ($\Theta$)}: Tight Bound.
+\end{itemize}
+
+$1 < \log n < \sqrt{n} < n < n\log n < n^2 < n^3 < 2^n < 2^{2n}$
+
+$\log_a n < n^a < a^n < n! < n^n$
+
+\noindent Notable: $\sqrt{n}\log n = O(n)$;\quad $O(\log(n!)) = O(n\log n)$;\quad $O(2^{2n}) \neq O(2^n)$
+
+\subsection*{Master Theorem}
+Shortcut for recurrences: $\mathbf{T(N) = aT(N/b) + O(N^d)}$
+Where $a \ge 1$ (subproblems), $b > 1$ (factor size is reduced), and $O(N^d)$ is work done outside recursive calls. Compare $\mathbf{a}$ and $\mathbf{b^d}$:
+\begin{itemize}
+    \item $a < b^d \implies \mathbf{O(N^d)}$ (Work dominated by root)
+    \item $a = b^d \implies \mathbf{O(N^d \log N)}$ (Work evenly distributed)
+    \item $a > b^d \implies \mathbf{O(N^{\log_b a})}$ (Work dominated by leaves)
+\end{itemize}
+
+\section*{2. Sorting Algorithms}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Best Time} & \textbf{Worst Time} & \textbf{Space} \\ \midrule
+Bubble Sort & $\Omega(N)$ & $O(N^2)$ & $O(1)$ \\
+Insertion Sort & $\Omega(N)$ & $O(N^2)$ & $O(1)$ \\
+Selection Sort & $\Omega(N^2)$ & $O(N^2)$ & $O(1)$ \\
+Mergesort      & $\Omega(N \log N)$ & $O(N \log N)$ & $O(N)$ \\
+Quicksort      & $\Omega(N \log N)$ & $O(N^2)$ & $O(\log N)$ \\ 
+\bottomrule
+\end{tabular}
+}
+
+\subsection*{Mergesort (Divide \& Conquer)}
+Stable sort. $T(N) = 2T(N/2) + O(N) \implies O(N \log N)$.
+
+
+\subsection*{Quicksort \& Quickselect}
+Pick a pivot, partition into $<$, $=$, $>$. Random pivot avoids $O(N^2)$ worst-case. In-place, unstable.
+\textbf{Quickselect}: Finds $k$-th smallest element. Expected time $O(N)$.
+
+\section*{3. Binary Heaps (Priority Queue)}
+Complete binary tree. \textbf{Max-Heap}: Parent $\ge$ Children. 
+\begin{itemize}
+    \item \textbf{Array Layout}: Root at $0$. Left: $2i + 1$. Right: $2i + 2$. Parent: $(i - 1) / 2$.
+    \item \textbf{Insert}: Append end, \texttt{bubbleUp()}. $O(\log N)$.
+    \item \textbf{ExtractMax}: Swap root \& last, pop, \texttt{bubbleDown()}. $O(\log N)$.
+    \item \textbf{BuildHeap}: \texttt{bubbleDown()} from $N/2$ down to $0$. Time: $\mathbf{O(N)}$.
+\end{itemize}
+
+\section*{4. BSTs \& Balanced Trees}
+\textbf{BST}: Search, Insert, Delete run in $O(h)$. Worst case $O(N)$. Balanced trees (AVL, Treaps) enforce $h = O(\log N)$.
+
+\subsection*{AVL Trees (Self-Balancing)}
+\textbf{Rotations}: \textbf{LL}: Right rot. \textbf{RR}: Left rot. \textbf{LR}: Left rot left child, Right rot root. $O(1)$ for insert, $O(\log n)$ for deletion.
+
+\subsection*{Tree Augmentation \& Intervals}
+Recompute after every rotation/update in $O(1)$ per node.
+\begin{itemize}
+  \item \textbf{Order statistics}: store \texttt{size}. \texttt{rank(x)} / \texttt{select(k)} in $O(\log N)$.
+  \item \textbf{Subtree aggregate}: store \texttt{sum/min/max/xor}. Range/path queries in $O(\log N)$.
+  \item \textbf{Min-gap in sorted set}: store subtree \texttt{minKey}, \texttt{maxKey}, \texttt{bestGap}.
+\end{itemize}
+
+
+\section*{5. Graph Fundamentals}
+Let $V$ = Vertices ($N$), $E$ = Edges ($M$). 
+\begin{itemize}
+    \item \textbf{Adjacency Matrix}: $O(V^2)$ space. $O(1)$ query edge.
+    \item \textbf{Adjacency List}: $O(V+E)$ space. $O(deg(v))$ to iterate neighbors.
+    \item \textbf{Edge List}: Array of all edges `(u, v, w)`. $O(E)$ space. 
+\end{itemize}
+
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Runtime} & \textbf{Primary Use Case} \\ \midrule
+\textbf{BFS / DFS} & $O(V+E)$ & Traversal, Connected Comps \\
+\textbf{Toposort} & $O(V+E)$ & Ordering DAG dependencies \\
+\textbf{Dijkstra (PQ)} & $O((V+E)\log V)$ & SSSP (No negative edges) \\
+\textbf{Bellman-Ford} & $O(V \cdot E)$ & SSSP (Handles -ve edges) \\
+\textbf{DAG SSSP} & $O(V+E)$ & SSSP on DAGs only \\
+\textbf{Kruskal} & $O(E \log E)$ & MST (Sparse graphs) \\
+\textbf{Prim} & $O((V+E)\log V)$ & MST (Dense graphs) \\
+\bottomrule
+\end{tabular}
+}
+
+\section*{6. Graph Traversal}
+\subsection*{Breadth-First Search (BFS)}
+Shortest paths on \textbf{unweighted} graphs.
+\begin{lstlisting}
+# Time: O(V+E)
+q = [start]
+vis[start] = True
+
+while q:
+  u = q.pop(0) # Process node
+  for v in adj[u]:
+    if not vis[v]: 
+      vis[v] = True; q.append(v)
+\end{lstlisting}
+
+\subsection*{Depth-First Search (DFS) \& Toposort}
+Uses recursion (stack). \textbf{Topological Sort}: Valid DAG order. Add vertex to front of list \textit{after} visiting all neighbors (post-order).
+\begin{lstlisting}
+# Time: O(V+E)
+def dfs(u):
+  vis[u] = True
+  for v in adj[u]:
+    if not vis[v]: dfs(v)
+  topo.append(u) # Toposort: Reverse list afterwards!
+\end{lstlisting}
+
+\subsection*{Advanced BFS}
+\begin{itemize}
+    \item \textbf{Multi-Source BFS}: Shortest path from \textit{any} node in a set. Set `dist=0` and push \textit{all} sources to queue initially.
+    \item \textbf{0/1 BFS}: Edges of weight 0 or 1. Use a \textbf{Deque}. If edge weight is 0, `push-front`. If weight 1, `push-back`. $O(V+E)$.
+\end{itemize}
+
+\section*{7. Union-Find Disjoint Sets (UFDS)}
+Superfast $O(\alpha(N))$ ops via \textbf{Path Compression} and \textbf{Union by Rank}.
+\begin{lstlisting}
+def find(i): # Path Compression
+  if parent[i] == i: return i
+  parent[i] = find(parent[i])
+  return parent[i]
+
+def union(i, j): # Union by Rank
+  rootI, rootJ = find(i), find(j)
+  if rootI != rootJ:
+    if rank[rootI] < rank[rootJ]: parent[rootI] = rootJ
+    elif rank[rootI] > rank[rootJ]: parent[rootJ] = rootI
+    else: parent[rootJ] = rootI; rank[rootI] += 1
+\end{lstlisting}
+
+\section*{8. Minimum Spanning Trees (MST)}
+\subsection*{Kruskal's Algorithm}
+Greedy: Sort an \textbf{Edge List} by weight ascending. Add edges if they don't form cycles (use UFDS). Best for sparse graphs.
+\begin{lstlisting}
+# Time: O(E log E) to sort edges.
+# UFDS takes amortized O(1). Loop runs E times. Total: O(E log E).
+\end{lstlisting}
+Integer weights in $[0,c)$: use $c$ buckets (bucket queue); find-min in $O(c)$ $\Rightarrow$ total $O(n(c+m))$.
+
+\subsection*{Prim's Algorithm}
+Greedy: Grow from start node. Use Min-Heap PQ to pick cheapest edge connecting tree to an unvisited node. Best for dense graphs.
+\begin{lstlisting}
+# Time: O((V+E) log V)
+pq.push((0, start_node)) # (weight, node)
+
+while pq:
+  w, u = pq.pop()
+  if inMST[u]: continue # Lazy deletion
+  inMST[u] = True 
+  mstCost += w
+  
+  for e in adj[u]:
+    if not inMST[e.to]: 
+      pq.push((e.w, e.to))
+\end{lstlisting}
+
+\section*{9. Single-Source Shortest Path (SSSP)}
+\subsection*{Dijkstra's Algorithm}
+Greedy Min-Heap. Cannot handle negative weight edges.
+\begin{lstlisting}
+# Time: O((V+E) log V)
+dist[start] = 0
+pq.push((0, start)) # (dist, node)
+
+while pq:
+  d, u = pq.pop()
+  if d > dist[u]: continue # Lazy deletion / Stale
+  for e in adj[u]:
+    if dist[u] + e.w < dist[e.to]:
+      dist[e.to] = dist[u] + e.w # Relax edge
+      pq.push((dist[e.to], e.to))
+\end{lstlisting}
+
+\subsection*{Bellman-Ford Algorithm}
+Handles \textbf{negative edges}. Iterate through an \textbf{Edge List}, relaxing all $E$ edges $V-1$ times. 
+\begin{lstlisting}
+# Time: O(V * E)
+dist[start] = 0
+
+for _ in range(V - 1):
+  relaxed = False
+  for e in edgeList: # e.u to e.v with weight e.w
+    if dist[e.u] + e.w < dist[e.v]:
+      dist[e.v] = dist[e.u] + e.w
+      relaxed = True
+  if not relaxed: break # Optimization: early exit
+# Detect negative cycles: Run one more (V-th) time. 
+# If any edge relaxes, a negative cycle exists.
+\end{lstlisting}
+
+\subsection*{DAG Shortest Paths}
+If graph is a DAG, \textbf{Toposort} the nodes. Relax outgoing edges in toposort order. Guarantees shortest path in $\mathbf{O(V+E)}$.
+
+\section*{10. Dynamic Programming (DP)}
+
+
+\mysubsec{LIS — $O(n^2)$} \code{dp[i]} = length of LIS ending at index $i$.
+\[ \code{dp[i]} = 1 + \max_{\substack{j < i \\ a[j] < a[i]}} \code{dp[j]}, \quad \code{dp[0]} = 1 \]
+Answer: $\max_i \code{dp[i]}$.
+
+\mysubsec{Unbounded Knapsack — $O(nC)$} Items reusable.
+\[ \code{dp[i][c]} = \max\!\bigl(\code{dp[i-1][c]},\ \code{dp[i][c-w]}+v\bigr) \]
+Iterate $c$ \emph{forward} for 1D table.
+
+\mysubsec{Bounded Knapsack — $O(nC)$} Each item $i$ has \code{cnt[i]} copies. Use sliding-window max (Max Queue) per residue lane \code{c \% w}; window size \code{cnt[i]+1}.
+\mysubsec{Edit Distance — $O(nm)$} \code{dp[i][j]} = min edits to transform \code{a[0..i-1]} to \code{b[0..j-1]}.
+\[
+\code{dp[i][j]} = \begin{cases}
+\code{dp[i-1][j-1]} & \text{if } a[i]=b[j] \\
+1 + \min(\code{dp[i-1][j]},\ \code{dp[i][j-1]},\ \code{dp[i-1][j-1]}) & \text{else}
+\end{cases}
+\]
+Base cases: \code{dp[i][0] = i}, \code{dp[0][j] = j}.
+
+\mysubsec{LCS — $O(nm)$} \code{dp[i][j]} = length of LCS of \code{a[0..i-1]} and \code{b[0..j-1]}.
+\[
+\code{dp[i][j]} = \begin{cases}
+\code{dp[i-1][j-1]+1} & a[i]=b[j] \\
+\max(\code{dp[i-1][j]},\ \code{dp[i][j-1]}) & \text{else}
+\end{cases}
+\]
+\mysubsec{Recovery} Follow child pointers from \code{dp[n][m]}; append only on diagonal moves (matched characters).
+
+\mysubsec{Vertex Cover on Tree — $O(n)$} Post-order DFS; \code{dp[v][0/1]} = min cover of subtree of $v$, not including / including $v$.
+\vspace{-9pt}
+\begin{align*}
+\code{dp[v][1]} &= 1 + \textstyle\sum_c \min(\code{dp[c][0]},\, \code{dp[c][1]}) \\
+\code{dp[v][0]} &= \textstyle\sum_c \code{dp[c][1]}
+\end{align*}
+\vspace{-9pt}
+Answer: $\min(\code{dp[root][0]},\, \code{dp[root][1]})$.
+
+\mysubsec{DP Pattern Reference}
+
+\begin{ctbl}
+  \textbf{Pattern} & \textbf{Template} \\
+  Take or skip      & $\max(\text{skip}_i,\ \text{take}_i)$ \\
+  Partition at $k$  & $\min_{k<i}(\code{dp[k]} + \text{cost}(k,i))$ \\
+  Two sequences     & 2D table; iterate both indices \\
+  Tree DP           & post-order DFS; combine children at $v$ \\
+  Interval DP       & \code{dp[l][r]}; base case \code{dp[i][i]} \\
+\end{ctbl}
+
+\begin{itemize}[leftmargin=1.1em, itemsep=2pt, topsep=2pt]
+\item \textbf{1. Reformulate recurrence:} Reduce branching so each state depends on $O(1)$ prior states rather than scanning $O(n)$ predecessors. \textit{Example:} Unbounded knapsack naive: loop over all copy counts $j$ $\Rightarrow$ $O(nC^2)$. Reformulation: \code{dp[n][c] = max(dp[n-1][c], dp[n][c-w]+v)} (take exactly 1 more or none) $\Rightarrow$ $O(nC)$.
+
+\item \textbf{2. Sliding-window max (monotone deque):} Recurrence \code{dp[i] = max(dp[j]) + f(i)} over a window $[i-k, i-1]$: maintain a deque of candidate indices. Remove from front when out of window; remove from back when new value dominates. Each index enters/leaves deque once $\Rightarrow$ amortised $O(1)$ per state.
+
+\item \textbf{3. Prefix sums:} If recurrence sums over a contiguous range of prior values, precompute prefix sums. Reduces per-state cost from $O(n) \to O(1)$.
+
+\item \textbf{4. Iteration direction (1D table reuse):} \textit{Unbounded knapsack:} iterate capacity \emph{forward} (allows reusing same item in same row). \textit{0/1 knapsack:} iterate capacity \emph{backward} (prevents using same item twice). Enables rolling-array space optimisation to $O(C)$.
+
+\item \textbf{5. Matrix exponentiation:} Any fixed-width linear recurrence (e.g.\ Fibonacci) can be computed in $O(k^3 \log n)$ using repeated matrix squaring.
+
+\item \textbf{6. Divide-and-conquer optimisation:} When the optimal split-point $\text{opt}(i,j)$ is monotone in $i$ (quadrangle inequality), reduce $O(n^2)$ partition DP to $O(n \log n)$.
+\end{itemize}
+
+\section*{11. Advanced Graph Modeling}
+\subsection*{Time-Expanded Graphs (The Meeting Problem)}
+When state depends on time, vertices become tuples: \textbf{(Node, Time)}. 
+\begin{itemize}
+    \item \textbf{Wait Edges:} Connect $(P_u, T_1) \to (P_u, T_2)$ with weight 0.
+    \item \textbf{Meeting Edges:} Connect $(P_u, T) \leftrightarrow (P_v, T)$ with weight 0.
+\end{itemize}
+
+\subsection*{The Expressway Problem (Graph Layering)}
+If you are allowed to make $K$ edges "free" on a shortest path, create $K+1$ copies of the graph. Normal edges connect $(u, k) \to (v, k)$ with weight $w$. Free edges connect $(u, k) \to (v, k+1)$ with weight 0. Target is $\min(\text{dist}[t][0 \dots K])$. Time: $O(K(V+E)\log V)$.
+
+\subsection*{Counting Triangles (Matrix Multiplication)}
+Given Adjacency Matrix $A$. Compute $A^3$. The diagonal entry $A^3[i][i]$ is paths of length 3 from $i$ to $i$. Total Triangles = $\text{Trace}(A^3) / 6$. Time: $O(V^{2.807})$.
+
+\section*{12. Master Data Structures Table}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}l|ccc|c@{}}
+\toprule
+\textbf{Data Structure} & \textbf{Search} & \textbf{Insert} & \textbf{Delete} & \textbf{Max/Min} \\ \midrule
+\textbf{Sorted Array} & $O(\log N)$ & $O(N)$ & $O(N)$ & $O(1)$ \\
+\textbf{Hash Table} & $O(1)$ exp & $O(1)$ exp & $O(1)$ exp & $O(N)$ \\
+\textbf{AVL Tree} & $O(\log N)$ & $O(\log N)$ & $O(\log N)$ & $O(\log N)$ \\
+\textbf{Binary Heap} & $O(N)$ & $O(\log N)$ & $O(\log N)$** & $O(1)$ \\ 
+\textbf{UFDS} & $O(\alpha(N))$ & N/A & N/A & N/A \\
+\bottomrule
+\end{tabular}
+}
+\vspace{1pt}
+\scriptsize{**$O(\log N)$ to extract-min/max, arbitrary delete is $O(N)$.}
+
+\section*{13. Max-Queue (Special Trick)}
+Enqueue, Dequeue, Get-Max, Add-To-All in $\mathbf{O(1)}$ amortized time. Implement with \texttt{in\_stack} and \texttt{out\_stack}. Each entry stores \texttt{(val, max\_so\_far)}. 
+
+\begin{itemize}
+    \item \textbf{Max-stack}: On push, store \texttt{(v, max(v, stk.top.max))}. \texttt{peek\_max} returns \texttt{stk.top.max} in $O(1)$.
+    \item \textbf{Enqueue}: Push \texttt{val - offset} onto \texttt{in\_stk}.
+    \item \textbf{Dequeue}: If \texttt{out\_stk} is empty: pop all entries from \texttt{in\_stk} onto \texttt{out\_stk} one by one, recomputing \texttt{max\_so\_far} as they arrive (this reverses their order). Then pop the top of \texttt{out\_stk}. 
+    \item \textbf{Get-Max}: \texttt{offset + max(in\_stk.max, out\_stk.max)}.
+    \item \textbf{Add-To-All}: Increment global \texttt{offset} variable by the given value. $O(1)$. When enqueuing, storing \texttt{val - offset} maintains the invariant \texttt{actual = stored + offset}.
+\end{itemize}
+
+\subsection*{Usage in Bounded Knapsack}
+Allows solving Bounded Knapsack in $O(N \cdot W)$ instead of $O(N \cdot W \cdot C)$. We optimize the transition over multiple copies of the same item using a Max-Queue on the residue classes modulo weight $w$.
+\begin{lstlisting}
+for w, v, cnt in items:
+  for k in range(w): # residue class
+    max_q = MaxQueue()
+    for m in range(...): # 0, 1, 2, ...
+      c = m*w + k
+      max_q.enqueue(dp[c] - m*v)
+      if max_q.size > cnt + 1: max_q.dequeue()
+      dp[c] = max_q.get_max() + m*v
+\end{lstlisting}
+
+\end{multicols*}
+\end{document}
