@@ -1,0 +1,367 @@
+\documentclass[a4paper,landscape]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=5mm]{geometry}
+\usepackage{amsmath,amssymb,multicol,xcolor,helvet,array}
+\renewcommand{\familydefault}{\sfdefault}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2pt}
+\setlength{\columnsep}{4mm}
+\setlength{\columnseprule}{.2pt}
+\setlength{\abovedisplayskip}{2pt}
+\setlength{\belowdisplayskip}{2pt}
+\definecolor{early}{HTML}{29577A}
+\definecolor{late}{HTML}{166451}
+\definecolor{alert}{HTML}{9B3B30}
+\newcommand{\head}[2][late]{\par\vspace{3pt}\noindent\colorbox{#1}{\parbox{\dimexpr\linewidth-6pt}{\color{white}\bfseries #2}}\par\vspace{1pt}}
+\newcommand{\cue}[1]{\par\textbf{#1}\enspace}
+\newcommand{\trap}[1]{\par{\color{alert}\textbf{Watch:} #1}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\V}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\SE}{\operatorname{SE}}
+\newcommand{\xb}{\bar x}
+\newcommand{\Xb}{\bar X}
+\newcommand{\db}{\bar d}
+\newcommand{\R}{\mathbb R}
+\newcommand{\col}{\par\vfill\columnbreak}
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\tblhead}[1]{\textbf{#1}}
+\newcommand{\subhead}[1]{\par\vspace{2pt}\textcolor{late}{\textbf{#1}}\par}
+\begin{document}
+\fontsize{7.4}{8.1}\selectfont
+\sffamily\raggedright
+\setlength{\abovedisplayskip}{2pt}
+\setlength{\belowdisplayskip}{2pt}
+\setlength{\abovedisplayshortskip}{1pt}
+\setlength{\belowdisplayshortskip}{1pt}
+\begin{multicols*}{4}
+\head[early]{ST2334 FINALS\hfill 1 / 2}
+\textbf{AY26/27 S1 | A4, two sides}\par
+Blue: first half (25\%); green: second half (75\%).
+\head[early]{1\quad Events, counting, conditioning}
+\cue{Count first.} Order? Replacement? \({n\choose r}=n!/[r!(n-r)!]\).
+\begin{tabular}{@{}L{.51\linewidth}L{.44\linewidth}@{}}
+\tblhead{Select \(r\) from \(n\)} & \tblhead{Count}\\\hline
+Ordered, replacement & \(n^r\)\\
+Ordered, no replacement & \(n!/(n-r)!\)\\
+Unordered, no replacement & \({n\choose r}\)\\
+Unordered, replacement & \({n+r-1\choose r}\)
+\end{tabular}
+Repeated objects: \(n!/\prod n_i!\); circle: \((n-1)!\); unlabelled equal groups: labelled count \(/k!\).
+\cue{Restrictions.} Together: block, permute inside. No adjacency: arrange others, choose gaps, permute. Grid: \({a+b\choose a}\); through point: multiply subpaths; avoiding: subtract.
+\cue{Without replacement.} \(K\) special among \(N\), draw \(n\):
+\[P(X=k)=\frac{{K\choose k}{N-K\choose n-k}}{{N\choose n}}.\]
+\(\E X=nK/N\); \(\V X=np(1-p)(N-n)/(N-1)\), \(p=K/N\).
+\cue{Events.} \(P(A^c)=1-P(A)\);\par
+\(P(A\cup B)=P(A)+P(B)-P(A\cap B)\).
+At least one: complement of none. Exactly one of two: \(P(A)+P(B)-2P(AB)\).
+De Morgan: complement swaps union/intersection and complements each event. Three-event union: singles minus pairs plus triple.
+\cue{Conditioning.} \(P(A\mid B)=P(AB)/P(B)\).
+\(P(AB)=P(A)P(B\mid A)\). For a partition \(B_i\):
+\(P(A)=\sum_iP(B_i)P(A\mid B_i)\).
+\[
+ P(B_j\mid A)=\frac{P(B_j)P(A\mid B_j)}{\sum_iP(B_i)P(A\mid B_i)}.\]
+Independent: \(P(AB)=P(A)P(B)\); disjoint positive-probability events are dependent. Pairwise independence need not imply mutual independence.
+\head[early]{2\quad One RV: normalize, integrate, transform}
+PMF: \(\sum_x f(x)=1\). PDF: \(\int f(x)\,dx=1\). Always \(f\ge0\); a density can exceed 1.
+\(F(x)=P(X\le x)\); continuous: \(F'=f\), \(P(X=a)=0\).
+\(P(a<X\le b)=F(b)-F(a)\).
+Integer \(X\): \(P(X\ge k)=1-F(k-1)\), \(P(X>k)=1-F(k)\). Discrete mass is a CDF jump.
+Valid CDF: nondecreasing, right-continuous, limits \(0,1\). General endpoints: \(P(a\le X\le b)=F(b)-F(a^-)\).
+\cue{Unknown constant.} Normalize on support; probability integrates over support \(\cap\) event.
+\cue{Expectation.} \(\E g(X)=\sum g(x)f(x)\), or \(\int g(x)f(x)dx\). \(\V X=\E X^2-(\E X)^2\).
+\(\E(aX+b)=a\E X+b\), \(\V(aX+b)=a^2\V X\).
+Indicator: \(\E I_A=P(A)\); counts \(N=\sum I_i\) give \(\E N=\sum P(A_i)\), even if dependent.
+\cue{Transforms / extrema.} Discrete: add masses sharing a value. Continuous: \(F_Y(y)=P(g(X)\le y)\), then differentiate. I.i.d.: \(F_{\max}=F^n\), \(F_{\min}=1-(1-F)^n\).
+\head[early]{3\quad Joint RVs: support matters}
+\(f_X(x)=\sum_y f(x,y)\) or \(\int f(x,y)dy\).
+\(f_{Y|X}(y|x)=f(x,y)/f_X(x)\), if \(f_X(x)>0\).
+\(\E[g(X,Y)]=\sum_x\sum_y g(x,y)f(x,y)\), or double integral.
+\cue{Triangular support.} \(0<x<y<1\): \(f_X=\int_x^1f\,dy\), \(f_Y=\int_0^yf\,dx\). Fixing a value also restricts conditional support.
+\cue{Independent iff} \(f=f_Xf_Y\) everywhere.
+\col
+\setlength{\parskip}{.5pt}
+\head[early]{4\quad Joint moments \& distribution recognition}
+\[\Cov(X,Y)=\E(XY)-\E X\E Y,\quad
+ \rho=\frac{\Cov(X,Y)}{\sigma_X\sigma_Y}.\]
+\[\V(aX+bY)=a^2\sigma_X^2+b^2\sigma_Y^2+2ab\Cov(X,Y).\]
+\(\Cov(aX+b,cY+d)=ac\Cov(X,Y)\). Independence implies covariance zero; converse false. Variances of independent sums \emph{and differences} add.
+\cue{Conditional moments.} \(\E(Y|X=x)=\sum_y y f_{Y|X}(y|x)\); integrate for continuous \(Y\).\par
+\(\E Y=\E[\E(Y|X)]\); \(\V Y=\E[\V(Y|X)]+\V[\E(Y|X)]\).
+Independent \(X,Y\): \(\E[g(X)h(Y)]=\E g(X)\E h(Y)\). \(\rho\in[-1,1]\); \(\rho(aX+b,cY+d)=\operatorname{sgn}(ac)\rho(X,Y)\) for \(ac\ne0\).
+\head[early]{5\quad Distribution cues \quad (\(q=1-p\))}
+\begin{tabular}{@{}L{.22\linewidth}L{.39\linewidth}L{.13\linewidth}L{.16\linewidth}@{}}
+\tblhead{Model} & \tblhead{PMF / PDF} & \(\E X\) & \(\V X\)\\\hline
+Ber\((p)\) & \(p^xq^{1-x},\ x=0,1\) & \(p\) & \(pq\)\\
+DU\((m)\) & \(1/m,\ x=1,\ldots,m\) & \(\frac{m+1}{2}\) & \(\frac{m^2-1}{12}\)\\
+Bin\((n,p)\) & \({n\choose x}p^xq^{n-x}\), \(0\le x\le n\) & \(np\) & \(npq\)\\
+Geo\((p)\) & \(q^{x-1}p,\ x\ge1\) & \(1/p\) & \(q/p^2\)\\
+NB\((r,p)\) & \({x-1\choose r-1}p^rq^{x-r}\), \(x\ge r\) & \(r/p\) & \(rq/p^2\)\\
+Pois\((\lambda)\) & \(e^{-\lambda}\lambda^x/x!,\ x\ge0\) & \(\lambda\) & \(\lambda\)\\
+\(U(a,b)\) & \(1/(b-a),\ a<x<b\) & \(\frac{a+b}{2}\) & \(\frac{(b-a)^2}{12}\)\\
+Exp\((\lambda)\) & \(\lambda e^{-\lambda x},\ x\ge0\) & \(1/\lambda\) & \(1/\lambda^2\)\\
+\(N(\mu,\sigma^2)\) & \(\frac{e^{-(x-\mu)^2/(2\sigma^2)}}{\sigma\sqrt{2\pi}}\) & \(\mu\) & \(\sigma^2\)
+\end{tabular}
+DU = discrete uniform. Discrete \(x\) is integer. Geo/NB count trials to first/\(r\)th success; failures = trials\(-r\).
+\(P(\mathrm{NB}(r,p)\le n)=P(\mathrm{Bin}(n,p)\ge r)\). Geometric: \(P(X>k)=q^k\), integer \(k\ge0\).
+\cue{Poisson process.} Count in time \(t\): Pois\((rt)\); gaps: Exp\((r)\). Disjoint counts independent; independent Poissons add.
+\cue{CDFs on support.} \(F_U(x)=(x-a)/(b-a)\); \(F_{\rm Exp}(x)=1-e^{-\lambda x}\). Exp mean \(m=1/\lambda\), survival \(e^{-x/m}\). Uniform probability: overlap length / \((b-a)\).
+\cue{Memoryless: Exp / Geo.} \(P(X>s+t|X>s)=P(X>t)\). Independent Exp minimum rate: \(\sum\lambda_i\).
+\cue{Normal:} \(Z=(X-\mu)/\sigma\).
+\(P(a<X<b)=\Phi((b-\mu)/\sigma)-\Phi((a-\mu)/\sigma)\).
+Upper-tail \(\gamma\) quantile: \(x=\mu+\sigma z_\gamma\).
+\cue{Approximations.} Binomial \(\approx\operatorname{Pois}(np)\) for rare successes. Binomial \(\approx N(np,npq)\) when \(np,nq\) sufficiently large.
+\cue{Continuity correction: integer \(k,a,b\).}
+\begin{tabular}{@{}L{.44\linewidth}L{.50\linewidth}@{}}
+\tblhead{Count event} & \tblhead{Normal event}\\\hline
+\(X\le k\); \(X<k\) & \(Y<k+.5\); \(Y<k-.5\)\\
+\(X\ge k\); \(X>k\) & \(Y>k-.5\); \(Y>k+.5\)\\
+\(X=k\) & \(k-.5<Y<k+.5\)\\
+\(a\le X\le b\) & \(a-.5<Y<b+.5\)
+\end{tabular}
+\trap{Do not continuity-correct ordinary continuous measurements. Normal notation gives variance, not SD.}
+\head[early]{6\quad Combined probability question patterns}
+\cue{Poisson given total.} Independent \(X\sim\operatorname{Pois}(\lambda)\), \(Y\sim\operatorname{Pois}(\eta)\):
+\(X\mid X+Y=m\sim\operatorname{Bin}(m,\lambda/(\lambda+\eta))\).
+\cue{Probability first, count second.} Find threshold probability \(p\) from the normal/Exp model. Count among \(n\) independent items: \(\operatorname{Bin}(n,p)\).
+\cue{At least one \(>c\).} \(1-(1-p)^n>c\Rightarrow n>\log(1-c)/\log(1-p)\); strict integer rounding.
+\col
+\setlength{\parskip}{1.2pt}
+\head{7\quad Sampling \& CLT\hfill SECOND HALF}
+\cue{Random sample.} \(X_1,\ldots,X_n\) i.i.d.; joint density/PMF \(\prod_i f_X(x_i)\).
+SRS without replacement: each subset has probability \(1/{N\choose n}\); selections are dependent.
+\cue{Enumerate a sampling distribution.} List ordered samples, compute each mean, then combine equal means by adding their sample probabilities. Distinct means are not necessarily equally likely.
+\[\Xb=\frac1n\sum_iX_i,\qquad
+ S^2=\frac{\sum_i(X_i-\Xb)^2}{n-1}.\]
+\[\E\Xb=\mu,\quad\V\Xb=\frac{\sigma^2}{n},\quad
+ \SE(\Xb)=\frac{\sigma}{\sqrt n}.\]
+\(\sum X_i\): mean \(n\mu\), variance \(n\sigma^2\), SD \(\sigma\sqrt n\).
+\cue{Exact vs approximate.} Normal population \(\Rightarrow\Xb\sim N(\mu,\sigma^2/n)\) for \emph{every} \(n\). Otherwise finite-variance i.i.d. CLT gives
+\[\frac{\Xb-\mu}{\sigma/\sqrt n}\approx N(0,1),\qquad
+ \frac{\sum X_i-n\mu}{\sigma\sqrt n}\approx N(0,1).\]
+Course rule: large \(n\ge30\); strong skew/heavy tails may need larger \(n\). CLT makes the \emph{mean} approximately normal, not the individual observations.
+\cue{LLN.} \(\Xb\xrightarrow{P}\mu\): averages concentrate near \(\mu\). This alone does not assert a normal shape. Chebyshev: \(P(|\Xb-\mu|\ge e)\le\sigma^2/(ne^2)\).
+\head{8\quad CLT question patterns}
+\cue{Probability of an average.}
+\[P(a<\Xb<b)\approx
+ \Phi\!\left(\frac{b-\mu}{\sigma/\sqrt n}\right)
+ -\Phi\!\left(\frac{a-\mu}{\sigma/\sqrt n}\right).\]
+\textbf{Sum tail:} \(P(\sum X_i>b)\approx1-\Phi((b-n\mu)/(\sigma\sqrt n))\). \textbf{W9 pre1:} \(n=100,\mu=40,\sigma=\sqrt{100}=10,b=4150\). \(z=(4150-100\cdot40)/(10\sqrt{100})=1.5\); tail \(.0668\).
+\cue{Choose \(n\) for precision.}
+\[P(|\Xb-\mu|\le e)\gtrsim1-\alpha
+ \ \Longrightarrow\ n\ge\left(\frac{z_{\alpha/2}\sigma}{e}\right)^2.\]
+For \(P(\Xb>\mu+d)\lesssim\alpha\), \(d>0\):
+\[n\ge(z_\alpha\sigma/d)^2.\]
+Round up after solving; these are CLT approximations.
+\cue{SE target only.} \(\SE\le e\Rightarrow n\ge(\sigma/e)^2\): no \(z\) factor. SE multiplied by \(r\) needs sample size multiplied by \(1/r^2\); quarter SE needs \(16n\).
+\head{9\quad Calculator-friendly data summaries}
+Store \(A=\sum x_i\), \(B=\sum x_i^2\); then
+\[\xb=A/n,\qquad s^2=\frac{B-A^2/n}{n-1}.\]
+\(s=\sqrt{s^2},\quad\widehat{\SE}=s/\sqrt n\).
+Expansion: \(\sum(x_i-\xb)^2=\sum x_i^2-n\xb^2\).
+\trap{\(s^2\) is variance; \(s\) is SD; \(s/\sqrt n\) is estimated SE. If given variance, do not square it again. Use calculator sample SD (\(s_x\), divisor \(n-1\)).}
+\cue{MRQ traps (W8 post1,4).} For \(Z=\sqrt n(\Xb-\mu)/\sigma\), \(\V Z=1\) exactly; \(\V(2Z)=4\). Omitting centering changes the mean, not the variance. CLT: \(P(\Xb>\mu)\approx.5\), even as the mean concentrates around \(\mu\).
+\cue{Related formulas.} Sample proportion of i.i.d. Ber\((p)\): \(\hat p=\Xb\), \(\E\hat p=p\), \(\V\hat p=p(1-p)/n\). In general,
+\(\V(\sum_iX_i)=\sum_i\V X_i+2\sum_{i<j}\Cov(X_i,X_j)\); independence removes covariance terms.
+\col
+\head{10\quad Sampling pivots: normal population}
+Normal sample: \(\Xb\perp S^2\). Two-sample row also needs independent samples. All rows are exact.
+\begin{tabular}{@{}L{.58\linewidth}L{.36\linewidth}@{}}
+\tblhead{Pivot / statistic} & \tblhead{Distribution}\\\hline
+\((\Xb-\mu)/(\sigma/\sqrt n)\) & \(N(0,1)\)\\
+\((\Xb-\mu)/(S/\sqrt n)\) & \(t_{n-1}\)\\
+\((n-1)S^2/\sigma^2\) & \(\chi^2_{n-1}\)\\
+\(\sum(X_i-\mu)^2/\sigma^2\) & \(\chi^2_n\)\\
+\((S_1^2/\sigma_1^2)/(S_2^2/\sigma_2^2)\) & \(F_{n_1-1,n_2-1}\)
+\end{tabular}
+\subhead{Build and recognize the reference distribution}
+Independent \(Z_i\sim N(0,1)\): \(\sum_{i=1}^\nu Z_i^2\sim\chi^2_\nu\). Independent chi-squares add their df. \(\E\chi^2_\nu=\nu\), \(\V\chi^2_\nu=2\nu\).
+For independent \(Z\sim N(0,1)\), \(U\sim\chi^2_\nu\): \(Z/\sqrt{U/\nu}\sim t_\nu\). \(\E t_\nu=0\) if \(\nu>1\); \(\V t_\nu=\nu/(\nu-2)\) if \(\nu>2\). Symmetric, heavier tails; \(t_\nu\to N(0,1)\).
+Independent \(U\sim\chi^2_r,V\sim\chi^2_s\): \((U/r)/(V/s)\sim F_{r,s}\). Raw \(U/V\sim(r/s)F_{r,s}\). \(\E F_{r,s}=s/(s-2)\), \(s>2\). Shared random denominators can cause dependence.
+\(S_1^2/S_2^2\sim(\sigma_1^2/\sigma_2^2)F_{n_1-1,n_2-1}\); equal population variances cancel the scale. \(1/F_{r,s}\sim F_{s,r}\). As both df grow, \(F_{r,s}\xrightarrow{P}1\).
+\cue{Chi-square normal approximation (W9 post2).}
+\(\nu=n-1,\ \E Q=\nu,\ \V Q=2\nu\). Large \(\nu\): \((Q-\nu)/\sqrt{2\nu}\approx N(0,1)\). For \(S^2>k\sigma^2\), \(z=(\nu k-\nu)/\sqrt{2\nu}\), tail \(\approx1-\Phi(z)\); not exact.
+\head{11\quad Quantiles \& pivot probability questions}
+\textbf{All critical values here use upper-tail notation:}\par
+\(P(Z>z_\gamma)=\gamma\), \(P(T_\nu>t_{\nu;\gamma})=\gamma\); similarly \(\chi^2_{\nu;\gamma}\), \(F_{r,s;\gamma}\).
+\cue{Variance probability.} \(P(S^2>c)=P(Q>(n-1)c/\sigma^2)\). For \(P(S^2<c)=p\):
+\[c=\frac{\sigma^2\chi^2_{n-1;1-p}}{n-1}.\]
+\textbf{Example:} \(n=13,p=.2\), \(\chi^2_{12;.8}=7.8073\): \(c=.6506\sigma^2\).
+\cue{Random \(S\) in the bound.}
+\(P(|\Xb-\mu|<cS)=1-\alpha\Rightarrow c=t_{n-1;\alpha/2}/\sqrt n\).
+\textbf{Example:} \(n=25\): \(c=2.064/5=.4128\).
+\cue{Squared \(t\).} \(W=n(\Xb-\mu)^2/S^2=T_{n-1}^2\sim F_{1,n-1}\). If \(P(W>c)=\alpha\), \(c=t_{n-1;\alpha/2}^2\): split tails, then square, not double.
+\cue{F quantiles.} \(F_{r,s;1-\gamma}=1/F_{s,r;\gamma}\). For \(P(S_1^2>cS_2^2)=\gamma\): \(c=(\sigma_1^2/\sigma_2^2)F_{n_1-1,n_2-1;\gamma}\).
+\trap{\(t\) and chi-square pivots are exact because of normality, not merely because \(n\) is small. Reciprocal \(F\) swaps df \emph{and} reverses the inequality.}
+\head{12\quad Point estimation: bias \& comparison}
+Estimator is random; estimate is its observed value.
+\(\operatorname{Bias}(T)=\E T-\theta\); unbiased iff \(\E T=\theta\).
+\(\operatorname{MSE}(T)=\V T+[\operatorname{Bias}(T)]^2\).
+Among unbiased estimators, smaller variance is preferable.
+\cue{Correct a bias.} If \(\E T=a\theta+b\), use \((T-b)/a\) (known \(a\ne0,b\)).
+\cue{Weighted estimators.} I.i.d. \(X_i\) with mean \(\mu\), variance \(\sigma^2\): \(T=\sum a_iX_i\) has \(\E T=\mu\sum a_i\), \(\V T=\sigma^2\sum a_i^2\). Unbiased for every \(\mu\) iff \(\sum a_i=1\); variance minimized by \(a_i=1/n\). Subset mean of \(m\) values: unbiased, variance \(\sigma^2/m\).
+\cue{Centering costs one df.} \(\sum(X_i-\Xb)^2=\sum(X_i-\mu)^2-n(\Xb-\mu)^2\). Expectation \((n-1)\sigma^2\) gives \(S^2\) unbiased without normality; \(S\) generally biased.
+\end{multicols*}
+\newpage
+\begin{multicols*}{4}
+\head{13\quad Choose the formula FIRST\hfill 2 / 2}
+\textbf{Symbols:} \(\alpha=1-\text{confidence level}\), \(\nu=\text{df}\); \(E=\text{margin of error}\), \(c=\text{critical value}\), \(\SE=\text{standard error}\).
+\textbf{Route:} one mean \(\to14\); independent groups \(\to15\); same/matched units \(\to17\); given CI \(\to18\); tail/p-value \(\to19\). Known variance means \(\sigma^2\) is given; \(s^2\) is estimated. Check assumptions before substituting.
+\head{14\quad One mean: CI \& test toolkit}
+\(\xb\): sample mean; \(\mu_0\): null mean; \(s\): sample SD; \(\sigma\): population SD.
+\[\text{CI: }\xb\pm c\SE;\qquad
+ z\text{ or }t=\frac{\xb-\mu_0}{\SE}.\]
+\begin{tabular}{@{}L{.44\linewidth}L{.22\linewidth}L{.25\linewidth}@{}}
+\tblhead{Conditions} & \tblhead{SE} & \tblhead{Reference}\\\hline
+Known \(\sigma\); normal (any \(n\)) or large sample & \(\sigma/\sqrt n\) & \(z\), exact if normal\\
+Unknown \(\sigma\); normal, any \(n\) & \(s/\sqrt n\) & exact \(t_{n-1}\)\\
+Unknown \(\sigma\); stated large-sample normal method & \(s/\sqrt n\) & approx. \(z\)
+\end{tabular}
+Two-sided CI: \(c=z_{\alpha/2}\) for \(z\) rows; \(c=t_{n-1;\alpha/2}\) for \(t\). Small nonnormal samples do not guarantee exact \(t\).
+\trap{Normal + unknown \(\sigma\): exact \(t\) at any \(n\), including 36 or 49. Follow any explicitly requested approximation.}
+\head{15\quad Two independent means}
+\(n_i\): sample size; \(\xb_i\): mean; \(s_i\): sample SD; \(s_i^2\): sample variance; \(\sigma_i^2\): population variance. \(\hat\delta=\xb_1-\xb_2\) estimates \(\delta=\mu_1-\mu_2\); null: \(\delta_0\).
+\[\text{CI: }\hat\delta\pm c\SE;\qquad
+ z\text{ or }t=\frac{(\xb_1-\xb_2)-\delta_0}{\SE}.\]
+\begin{tabular}{@{}L{.39\linewidth}L{.55\linewidth}@{}}
+\tblhead{Case} & \tblhead{SE and reference}\\\hline
+Known \(\sigma_i^2\); normal or both large & \(\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}\); \(z\)\\
+Unknown; unrestricted / unequal; both large & \(\sqrt{s_1^2/n_1+s_2^2/n_2}\); approx. \(z\) (unpooled)\\
+Unknown, equal; normal populations & \(s_p\sqrt{1/n_1+1/n_2}\); exact \(t_{n_1+n_2-2}\)\\
+Unknown, equal; stated large-sample normal method & same pooled SE; approx. \(z\)
+\end{tabular}
+\(z\) exact for normal populations with known variances; otherwise approximate. Pool only if equal population variances are assumed, not merely similar \(s_i^2\).
+\subhead{Pooled calculation: keep this order}
+\textbf{1. Pooled sample variance:}
+\[s_p^2=\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}.\]
+\textbf{2. SD then SE of the difference:}
+\[s_p=\sqrt{s_p^2},\qquad
+ \SE=s_p\sqrt{\frac1{n_1}+\frac1{n_2}}.\]
+\textbf{3. CI or test:} use top formula; \(c=z_{\alpha/2}\) or \(t_{n_1+n_2-2;\alpha/2}\). Square SDs in step 1, not variances. Equal \(n_i\): \(s_p^2=(s_1^2+s_2^2)/2\).
+\head{16\quad Critical values to recall}
+\begin{tabular}{@{}lrrrr@{}}
+Confidence &90\%&95\%&96\%&99\%\\
+\(\alpha/2\)&.05&.025&.02&.005\\
+\(z_{\alpha/2}\)&1.645&1.960&2.054&2.576
+\end{tabular}\par
+98\% CI: \(z_{.01}=2.326\). One-sided \(\alpha\) uses \(z_\alpha\), not \(z_{\alpha/2}\). \(\Phi(-z)=1-\Phi(z)\).
+\col
+\head{17\quad Paired observations: reduce to one sample}
+\cue{Recognize.} Same units before/after or matched pairs. Independence is \emph{between pairs}, not necessarily within each pair. Set direction: \(D=\text{before}-\text{after}\) makes positive time differences mean a reduction.
+\(d_i\): pair difference; \(\db\): its sample mean; \(s_D\): its sample SD; \(\mu_{D0}\): null mean; \(n\): pairs.
+\[\db=\frac{\sum d_i}{n},\quad
+ s_D^2=\frac{\sum d_i^2-(\sum d_i)^2/n}{n-1}.\]
+\[\SE_D=\frac{s_D}{\sqrt n},\qquad
+ t=\frac{\db-\mu_{D0}}{\SE_D},\qquad\nu=n-1.\]
+\[\text{Paired }t\text{ CI: }\db\pm t_{n-1;\alpha/2}\SE_D.\]
+\begin{tabular}{@{}L{.44\linewidth}L{.50\linewidth}@{}}
+\tblhead{Asked for} & \tblhead{Use}\\\hline
+Lower CI endpoint & \(L=\db-c\SE_D\)\\
+Upper CI endpoint & \(U=\db+c\SE_D\)\\
+Target reversed: \(B-A\), data \(A-B\) & \(-\db\pm c\SE_D\), or \((-U,-L)\)
+\end{tabular}
+Normal differences: exact \(t\), \(c=t_{n-1;\alpha/2}\). Stated large-sample normal method: approximate \(z\), \(c=z_{\alpha/2}\). Normal marginals alone do not guarantee normal differences.
+\cue{Only separate summaries and correlation?}
+Here \(r\) is the sample correlation of the paired \(X,Y\) values.
+\[\db=\xb-\bar y,\qquad s_D^2=s_X^2+s_Y^2-2rs_Xs_Y.\]
+\trap{Use \(s_D/\sqrt n\), not \(s_D\), in the test denominator. Do not pool pairs. Reversing differences flips their mean and test direction, not their SD.}
+\head{18\quad Confidence interval question patterns}
+\cue{Build an interval.} \(E=c\SE\), \(L=\hat\theta-E\), \(U=\hat\theta+E\), total width \(W=2E\). Endpoint of a two-sided CI still uses \(\alpha/2\); a one-sided bound uses \(\alpha\).
+\cue{Work backwards from \((L,U)\).}
+\[\hat\theta=\frac{L+U}{2},\quad E=\frac{U-L}{2},\quad
+ \SE=\frac{E}{c}.\]
+Test statistic from CI: \(z\text{ or }t=(\hat\theta-\theta_0)c/E\). For a one-sample/paired estimated SE, recover \(s=\SE\sqrt n\). No need to infer the design just to recover SE from a given symmetric CI.
+\cue{Required \(n\), known/planning SD.}
+\[n_{\min}=\left\lceil\left(\frac{z_{\alpha/2}\sigma}{E}\right)^2\right\rceil.\]
+Total length \(W\Rightarrow E=W/2\). Using a pilot SD makes this a planning approximation.
+\cue{Change sample size/confidence.} Width and margin scale identically; \(c\) denotes the relevant critical value.
+\begin{tabular}{@{}L{.44\linewidth}L{.50\linewidth}@{}}
+\tblhead{Change / known information} & \tblhead{Formula or result}\\\hline
+Same data, new confidence & \(E_{\rm new}=E_{\rm old}c_{\rm new}/c_{\rm old}\); same center, SE\\
+Same SD, different size & \(E_{\rm new}/E_{\rm old}=(c_{\rm new}/c_{\rm old})\sqrt{n_{\rm old}/n_{\rm new}}\)\\
+Fixed critical value, width factor \(r\) & \(n_{\rm new}=\lceil n_{\rm old}/r^2\rceil\)\\
+Width reduced by \(r\) & use factor \(1-r\), not \(r\)\\
+Variance factor \(a\), size factor \(b\) & width factor \((c_{\rm new}/c_{\rm old})\sqrt{a/b}\)\\
+Percent change in margin & \(100(E_{\rm new}/E_{\rm old}-1)\)
+\end{tabular}
+One fixed group, other \(n\to\infty\): SE tends to fixed group's SE. For \(t\), changed df changes \(c\).
+\cue{Interpret.} 95\% of repeated CIs cover the fixed parameter, not 95\% of observations. A computed CI covers or misses. More confidence widens it; more data narrows it.
+\col
+\head{19\quad Hypothesis tests: choose the TAIL}
+Let \(\theta\) be \(\mu,\delta\), or \(\mu_D\). Null value is \(\theta_0\); statistic \(w=(\hat\theta-\theta_0)/\SE\). Select \(z\) or \(t_\nu\) using sections 13--17.
+\begin{tabular}{@{}L{.25\linewidth}L{.33\linewidth}L{.32\linewidth}@{}}
+\tblhead{\(H_1\)} & \tblhead{Reject if} & \tblhead{p-value}\\\hline
+\(\theta>\theta_0\) & \(w>c_\alpha\) & \(1-G(w)\)\\
+\(\theta<\theta_0\) & \(w<-c_\alpha\) & \(G(w)\)\\
+\(\theta\ne\theta_0\) & \(|w|>c_{\alpha/2}\) & \(2[1-G(|w|)]\)
+\end{tabular}
+Here \(G=\Phi\) for \(z\), or the \(t_\nu\) CDF; \(c_\gamma=z_\gamma\) or \(t_{\nu;\gamma}\).
+``Exceeds / below'' gives one tail; ``differs / changed'' gives two. Two-sided also: \(p=2\min\{G(w),1-G(w)\}\).
+\trap{One-sided \(p\) uses the signed statistic. Absolute value is only for the symmetric two-sided rule. Use the direction of \(H_1\), not the sign you hoped to obtain.}
+\subhead{How to get \(\Phi\) or a \(t\) tail}
+\(\Phi(z)=P(Z\le z)\), the standard-normal \emph{left} area. Table: row 1.4, column .01 gives \(\Phi(1.41)=.9207\). Right tail \(=1-.9207\). Calculator: Normal CDF from \(-\infty\) to \(z\), mean 0, SD 1. Keep unrounded \(z\) if possible.
+For \(t_\nu\), use the correct df. If \(t_{\nu;.05}<|t|<t_{\nu;.025}\), then one tail is between .025 and .05; two-sided \(p\) is between .05 and .10. Read \emph{one-tail} headings for \(t_{\nu;\gamma}\).
+\head{20\quad Reject only in the rejection region}
+Two-sided: \(-c\le w\le c\) means \textbf{do not reject}; outside means reject. E.g. \(|1.76|<2.306\): do not reject. A positive statistic alone proves nothing.
+\cue{p-value decision.} Reject for \(p<\alpha\) here; if the question specifies \(\le\), use it. Match critical-value inequalities to that boundary rule.
+\cue{What p means.} Under \(H_0\), probability of a statistic at least as extreme toward \(H_1\), not \(P(H_0\mid\text{data})\).
+\cue{Composite null.} For \(H_0:\theta\le\theta_0\) against \(>\), compute at boundary \(\theta_0\); similarly for \(\ge\) against \(<\).
+\cue{Smallest \(n\) to reject: known \(\sigma\).} For a fixed observed \(\xb>\mu_0\), right-tail test:
+\[\frac{(\xb-\mu_0)\sqrt n}{\sigma}>z_\alpha
+\ \Rightarrow\ n>\left(\frac{z_\alpha\sigma}{\xb-\mu_0}\right)^2.\]
+Two-sided: use \(z_{\alpha/2}\) and \(|\xb-\mu_0|\). Strict \(>\): \(n_{\min}=\lfloor\text{bound}\rfloor+1\). W11 post9: bound \(165.8944\Rightarrow166\). Observed mean is fixed; this is not power planning.
+\cue{Conclude in context.} Reject: sufficient evidence for \(H_1\) at level \(\alpha\). Do not reject: insufficient evidence for \(H_1\); this does not prove \(H_0\).
+\head{21\quad CI--test duality \& endpoint tricks}
+Match the method and levels: \(100(1-\alpha)\%\) two-sided CI \(\leftrightarrow\) two-sided test at \(\alpha\).
+\begin{tabular}{@{}L{.44\linewidth}L{.50\linewidth}@{}}
+\tblhead{Null value vs CI} & \tblhead{Matching two-sided test}\\\hline
+Strictly outside & \(p<\alpha\): reject\\
+Strictly inside & \(p>\alpha\): do not reject\\
+At exact endpoint & \(p=\alpha\): boundary rule matters
+\end{tabular}
+Upper endpoint: left-tail \(p=\alpha/2\), right-tail \(p=1-\alpha/2\); swap at lower endpoint. Rounded endpoints give approximate equality.
+\textbf{96\% CI \([18,24]\), test \(\mu_0=24\):}\par
+\(\xb=21\); \(p_<=.02,\ p_>=.98,\ p_{\ne}=.04\). Under strict \(p<.04\), only the left test rejects.
+\cue{One-sided comparison.} One-sided 5\% uses \(c_{.05}\), 95\% two-sided uses \(c_{.025}\); decisions can differ. Match a one-sided 5\% test with a 95\% one-sided bound, or a 90\% two-sided interval in the tested direction.
+\cue{Bound \(p\) using nested CIs (W12 post8).} Null outside 90\% but inside 95\% CI \(\Rightarrow .05<p<.10\); do not reject at 5\%. Compare with the actual null value, not automatically zero.
+\col
+\head{22\quad Quiz patterns: pivots, pooling, correlation}
+\begin{tabular}{@{}L{.50\linewidth}L{.44\linewidth}@{}}
+\tblhead{Question clue} & \tblhead{Go to}\\\hline
+Pooled SE / observed \(t\) & 15: variance \(\to\) SE \(\to t\)\\
+Paired raw data / sum of squares & 17; sample SD uses \(n-1\)\\
+CI \(\to\) statistic / new confidence & 18: center, margin, SE\\
+p-value / nested confidence levels & 19 / 21\\
+Squared \(t\) / weighted estimator & 11 / 12\\
+Critical mean cutoff / power & 23
+\end{tabular}
+\cue{Nonzero null (W12 pre9).} Use section 15's full formula: \(t=[(\xb_1-\xb_2)-\delta_0]/\SE\). With \(n_1=8,n_2=14,s_1=8,s_2=4\): \(s_p^2=32.8\), \(\SE=2.5383\). Difference \(7.3\), null \(3\): \(t=(7.3-3)/2.5383=1.694<1.725\); df \(20\), do not reject (right 5\%).
+\cue{Paired correlation threshold (W12 pre10).}
+\textbf{General:} let \(a=\db-\mu_{D0}>0\) and \(q=t_{n-1;\alpha}>0\) for a right-tail test. Then
+\[t=\frac{a\sqrt n}{\sqrt{s_X^2+s_Y^2-2rs_Xs_Y}}>q\]
+\[\Longleftrightarrow\quad r>\frac{s_X^2+s_Y^2-na^2/q^2}{2s_Xs_Y}.\]
+\textbf{Substitute:}
+\(n=16,\db=4.5,\mu_{D0}=2,s_X=8,s_Y=6\).
+\(a=4.5-2=2.5,\ q=1.753\); \(t=10/\sqrt{100-96r}\). Thus \(r>[100-16(2.5)^2/1.753^2]/96=.7027\).
+Higher positive \(r\) reduces difference variance. Check \(-1\le r\le1\), positive denominator and numerator sign before squaring; division by a negative flips an inequality.
+\head{23\quad Critical cutoffs, Type II error \& power}
+\(\mu_0\): null mean; \(\mu_a\): specified true mean; \(u,\ell\): upper/lower cutoffs in the original units.
+\(\SE=\sigma/\sqrt n\). Right-tail rejection cutoff: \(u=\mu_0+z_\alpha\SE\); left-tail: \(\ell=\mu_0-z_\alpha\SE\). Two-sided: use \(z_{\alpha/2}\) in both cutoffs.
+\cue{At true mean \(\mu_a\), keep the cutoff fixed.}
+\[\beta_{\rm right}=\Phi\!\left(\frac{u-\mu_a}{\SE}\right),\quad
+ \beta_{\rm left}=1-\Phi\!\left(\frac{\ell-\mu_a}{\SE}\right).\]
+Two-sided: \(\beta=\Phi((u-\mu_a)/\SE)-\Phi((\ell-\mu_a)/\SE)\). Power \(=1-\beta\). Exact for normal data with known \(\sigma\); CLT approximation otherwise.
+\textbf{W11 pre10, substitute:} \(\mu_0=100,\sigma=12,n=36,\alpha=.05\): \(\SE=12/\sqrt{36}=2\); \(u=100+1.645(2)=103.29\). At \(\mu_a=104\): \(\beta=\Phi((103.29-104)/2)=.3613\), power \(1-.3613=.6387\).
+\begin{tabular}{@{}L{.23\linewidth}L{.33\linewidth}L{.34\linewidth}@{}}
+ & \tblhead{Do not reject} & \tblhead{Reject}\\\hline
+\(H_0\) true & correct & Type I: \(\alpha\)\\
+\(H_0\) false & Type II: \(\beta\) & power: \(1-\beta\)
+\end{tabular}
+Power is not \(1-\alpha\). \(\alpha\ne P(H_0\mid\text{data})\). Choosing a one-sided direction \emph{after} seeing the sign gives actual Type I error \(2\alpha\) here. At fixed \(n\), lower \(\alpha\) reduces power; larger \(n\), smaller \(\sigma\), or larger true effect in the tested direction increases power.
+\textbf{Wrong-direction tail (W12 post7):} \(H_1:\mu<50\), but \(z=+1.75\): \(p=\Phi(1.75)=.9599\), not \(.0401\). Do not reject at 5\%.
+\textbf{Before committing:} target/sign \(\to\) paired? \(\to\sigma\) vs \(s\) \(\to\SE\) \(\to\) df \(\to\) tail \(\to\) inequality \(\to\) contextual conclusion. Round sample size up and final answers last.
+\end{multicols*}
+\end{document}
